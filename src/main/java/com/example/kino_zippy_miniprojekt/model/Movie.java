@@ -1,7 +1,12 @@
 package com.example.kino_zippy_miniprojekt.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Movie {
@@ -14,6 +19,10 @@ public class Movie {
     private String genre;
     private String durationMin;
     private String posterUrl;
+
+    @OneToMany(mappedBy = "movie")
+    @JsonBackReference
+    private Set<Screening> screenings = new HashSet<>();
 
     public int getId() {
         return id;
@@ -69,5 +78,13 @@ public class Movie {
 
     public void setPosterUrl(String posterUrl) {
         this.posterUrl = posterUrl;
+    }
+
+    public Set<Screening> getScreenings() {
+        return screenings;
+    }
+
+    public void setScreenings(Set<Screening> screenings) {
+        this.screenings = screenings;
     }
 }

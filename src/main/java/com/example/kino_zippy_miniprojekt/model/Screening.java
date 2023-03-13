@@ -1,9 +1,11 @@
 package com.example.kino_zippy_miniprojekt.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Screening {
@@ -14,6 +16,18 @@ public class Screening {
     private int auditoriumId;
     private Date screeningStart;
     private Date screeningDate;
+
+    @ManyToOne
+    @JoinColumn(name = "auditoriumId", referencedColumnName = "id")
+    private Auditorium auditorium;
+
+    @ManyToOne
+    @JoinColumn(name = "movieId", referencedColumnName = "id")
+    private Movie movie;
+
+    @OneToMany(mappedBy = "screening")
+    @JsonBackReference
+    private Set<Reservation> kommuner = new HashSet<>();
 
     public int getId() {
         return id;
@@ -53,5 +67,29 @@ public class Screening {
 
     public void setScreeningDate(Date screeningDate) {
         this.screeningDate = screeningDate;
+    }
+
+    public Auditorium getAuditorium() {
+        return auditorium;
+    }
+
+    public void setAuditorium(Auditorium auditorium) {
+        this.auditorium = auditorium;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public Set<Reservation> getKommuner() {
+        return kommuner;
+    }
+
+    public void setKommuner(Set<Reservation> kommuner) {
+        this.kommuner = kommuner;
     }
 }
