@@ -12,8 +12,6 @@ public class Seat {
     private int id;
     private int row;
     private int number;
-    private int auditoriumId;
-    private int reservationId;
 
     @ManyToOne
     @JoinColumn(name = "reservationId", referencedColumnName = "id")
@@ -45,22 +43,6 @@ public class Seat {
 
     public void setNumber(int number) {
         this.number = number;
-    }
-
-    public int getAuditoriumId() {
-        return auditoriumId;
-    }
-
-    public void setAuditoriumId(int auditoriumId) {
-        this.auditoriumId = auditoriumId;
-    }
-
-    public int getReservationId() {
-        return reservationId;
-    }
-
-    public void setReservationId(int reservationId) {
-        this.reservationId = reservationId;
     }
 
     public Reservation getReservation() {

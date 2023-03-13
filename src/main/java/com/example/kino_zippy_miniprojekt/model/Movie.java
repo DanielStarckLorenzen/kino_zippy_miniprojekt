@@ -17,8 +17,8 @@ public class Movie {
     private String description;
     private String director;
     private String genre;
-    private String durationMin;
-    private String posterUrl;
+    private String duration_min;
+    private String poster_url;
 
     @OneToMany(mappedBy = "movie")
     @JsonBackReference
@@ -64,20 +64,20 @@ public class Movie {
         this.genre = genre;
     }
 
-    public String getDurationMin() {
-        return durationMin;
+    public String getDuration_min() {
+        return duration_min;
     }
 
-    public void setDurationMin(String durationMin) {
-        this.durationMin = durationMin;
+    public void setDuration_min(String durationMin) {
+        this.duration_min = durationMin;
     }
 
-    public String getPosterUrl() {
-        return posterUrl;
+    public String getPoster_url() {
+        return poster_url;
     }
 
-    public void setPosterUrl(String posterUrl) {
-        this.posterUrl = posterUrl;
+    public void setPoster_url(String posterUrl) {
+        this.poster_url = posterUrl;
     }
 
     public Set<Screening> getScreenings() {

@@ -2,9 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Index</title>
 </head>
 <body>
-
+<script src="/js/main.js"></script>
+ <!--Lav film som kan smides ned i databasen -->
+<div class="addMovieToDatabase">
+    <label>ID:
+        <input type="number" id="id">
+    </label>
+    <br>
+    <label>Title:
+        <input type="text" id="title">
+    </label>
+    <br>
+    <label>Director:
+        <input type="text" id="director">
+    </label>
+    <br>
+    <label>Cast:
+        <input type="text" id="cast">
+    </label>
+    <br>
+    <label>Description:
+        <input type="text" id="description">
+    </label>
+    <br>
+    <label>Duration in minutes:
+        <input type="int" id="durationMin">
+    </label>
+    <br>
+    <label>Poster Url:
+        <input type="text" id="posterUrl">
+    </label>
+    <br>
+    <label>Genre:
+        <input type="text" id="genre">
+    </label>
+    <br>
+    <button type="submit" onclick="newMovie()">Submit!</button>
+</div>
 </body>
 </html>

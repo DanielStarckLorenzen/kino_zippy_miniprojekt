@@ -12,8 +12,6 @@ public class Screening {
 
     @Id
     private int id;
-    private int movieId;
-    private int auditoriumId;
     private Date screeningStart;
     private Date screeningDate;
 
@@ -31,26 +29,6 @@ public class Screening {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getMovieId() {
-        return movieId;
-    }
-
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
-    }
-
-    public int getAuditoriumId() {
-        return auditoriumId;
-    }
-
-    public void setAuditoriumId(int auditoriumId) {
-        this.auditoriumId = auditoriumId;
     }
 
     public Date getScreeningStart() {

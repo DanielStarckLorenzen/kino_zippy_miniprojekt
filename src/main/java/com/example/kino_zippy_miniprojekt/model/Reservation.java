@@ -11,12 +11,10 @@ public class Reservation {
 
     @Id
     private int id;
-    private int screeningId;
     private int reservationContact;
     private boolean reserved;
     private boolean paid;
     private boolean active;
-    private int seatId;
 
     @ManyToOne
     @JoinColumn(name = "screeningId", referencedColumnName = "id")
@@ -32,14 +30,6 @@ public class Reservation {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getScreeningId() {
-        return screeningId;
-    }
-
-    public void setScreeningId(int screeningId) {
-        this.screeningId = screeningId;
     }
 
     public int getReservationContact() {
@@ -72,14 +62,6 @@ public class Reservation {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public int getSeatId() {
-        return seatId;
-    }
-
-    public void setSeatId(int seatId) {
-        this.seatId = seatId;
     }
 
     public Screening getScreening() {
