@@ -9,5 +9,10 @@
 }
 
 .posterUrlInput {
-    top: 383px;
+    top: 40px;
+}
+
+.posterImage {
+    width: 260px;
+    height: 365px;
 }

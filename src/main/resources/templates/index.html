@@ -32,71 +32,18 @@
                         Movie
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Create Movie</a></li>
+                        <li><a class="dropdown-item" href="createMovie.html">Create Movie</a></li>
                         <li><a class="dropdown-item" href="#">See Movies</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Analytics</a>
+                    <a class="nav-link" aria-current="page" href="#">Analytics</a>
                 </li>
             </ul>
 
         </div>
     </div>
 </nav>
-
-
- <!--Lav film som kan smides ned i databasen -->
-<div class="addMovieToDatabase">
-    <!--<label>ID:
-        <input type="number" id="id">
-    </label>-->
-
-    <br>
-    <div class="createMovieInputLeft w-25">
-    <div class="input-group mb-3" >
-        <span class="input-group-text" id="basic-addon1">Title</span>
-        <input type="text" class="form-control" placeholder="Movie Title" aria-label="Username" aria-describedby="basic-addon1" id="title" required>
-    </div>
-    <br>
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon2">Director</span>
-        <input type="text" class="form-control" placeholder="Movie Director" aria-label="Username" aria-describedby="basic-addon1" id="director" required>
-    </div>
-    <br>
-    <div class="input-group">
-        <span class="input-group-text">Cast</span>
-        <textarea class="form-control" aria-label="With textarea" id="cast" required></textarea>
-    </div>
-    <br>
-    <div class="input-group ">
-        <span class="input-group-text">Description</span>
-        <textarea class="form-control" aria-label="With textarea" id="description" required></textarea>
-    </div>
-    <br>
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon3">Duration min.</span>
-        <input type="number" class="form-control" placeholder="Duration in minutes" aria-label="Username" aria-describedby="basic-addon1" id="durationMin" required>
-    </div>
-    <br>
-    <select class="form-select" aria-label="Default select example">
-        <option selected>Genre</option>
-        <option value="Action">Action</option>
-        <option value="Comedy">Comedy</option>
-        <option value="Sci-Fi">Sci-Fi</option>
-    </select>
-    <br>
-    <button type="submit" id="pbAddMovie" class="btn btn-success">Submit!</button>
-    </div>
-
-    <div class="createMovieInputRight w-25">
-    <img src="assets/placeholder-image-vertical.png" class="rounded float-end" alt="Movie Poster Missing">
-    <div class="input-group mb-3 posterUrlInput">
-        <span class="input-group-text" id="basic-addon4">Poster Url</span>
-        <input type="number" class="form-control" placeholder="Poster URL" aria-label="Username" aria-describedby="basic-addon1" id="posterUrl" required>
-    </div>
-    </div>
-</div>
 
 
  <script src="/js/main.js"></script>

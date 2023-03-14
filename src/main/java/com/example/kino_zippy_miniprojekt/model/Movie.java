@@ -16,6 +16,7 @@ public class Movie {
     private String title;
     private String description;
     private String director;
+    private String cast;
     private String genre;
     private int duration_min;
     private String poster_url;
@@ -86,5 +87,13 @@ public class Movie {
 
     public void setScreenings(Set<Screening> screenings) {
         this.screenings = screenings;
+    }
+
+    public String getCast() {
+        return cast;
+    }
+
+    public void setCast(String cast) {
+        this.cast = cast;
     }
 }

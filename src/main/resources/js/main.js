@@ -7,10 +7,10 @@ function newMovie() {
         title: document.getElementById("title").value,
         director: document.getElementById("director").value,
         cast: document.getElementById("cast").value,
-        durationMin: document.getElementById("durationMin").value,
+        duration_min: document.getElementById("durationMin").value,
         description: document.getElementById("description").value,
         genre: document.getElementById("genre").value,
-        posterUrl: document.getElementById("posterUrl").value,
+        poster_url: document.getElementById("posterUrl").value,
     }
     postMovie(movie);
 }
