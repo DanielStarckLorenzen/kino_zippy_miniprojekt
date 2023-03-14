@@ -1,5 +1,7 @@
 const urlPostMovie = "http://localhost:8080/createMovie";
 
+const pbAddMovie = document.getElementById("pbAddMovie");
+pbAddMovie.addEventListener("click", newMovie);
 function newMovie() {
     const movie = {
         title: document.getElementById("title").value,
