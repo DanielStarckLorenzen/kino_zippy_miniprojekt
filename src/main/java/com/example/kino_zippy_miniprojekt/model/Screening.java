@@ -16,15 +16,15 @@ public class Screening {
     private Date screeningDate;
 
     @ManyToOne
-    @JoinColumn(name = "auditoriumId", referencedColumnName = "id")
+    @JoinColumn(name = "Projection_Room", referencedColumnName = "id")
     private Auditorium auditorium;
 
     @ManyToOne
-    @JoinColumn(name = "movieId", referencedColumnName = "id")
+    @JoinColumn(name = "Projection_Movie", referencedColumnName = "id")
     private Movie movie;
 
     @OneToMany(mappedBy = "screening")
-    @JsonBackReference
+    @JsonBackReference(value = "screening-reservation")
     private Set<Reservation> kommuner = new HashSet<>();
 
     public int getId() {

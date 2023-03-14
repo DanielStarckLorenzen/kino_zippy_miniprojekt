@@ -17,11 +17,11 @@ public class Reservation {
     private boolean active;
 
     @ManyToOne
-    @JoinColumn(name = "screeningId", referencedColumnName = "id")
+    @JoinColumn(name = "Reservation_Projection", referencedColumnName = "id")
     private Screening screening;
 
     @OneToMany(mappedBy = "reservation")
-    @JsonBackReference
+    @JsonBackReference(value = "reservation-seat")
     private Set<Seat> seats = new HashSet<>();
 
     public int getId() {

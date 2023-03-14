@@ -1,5 +1,6 @@
 package com.example.kino_zippy_miniprojekt.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -14,11 +15,11 @@ public class Seat {
     private int number;
 
     @ManyToOne
-    @JoinColumn(name = "reservationId", referencedColumnName = "id")
+    @JoinColumn(name = "Reservation_Id", referencedColumnName = "id")
     private Reservation reservation;
 
     @ManyToOne
-    @JoinColumn(name = "auditoriumId", referencedColumnName = "id")
+    @JoinColumn(name = "Seat_Room", referencedColumnName = "id")
     private Auditorium auditorium;
 
     public int getId() {

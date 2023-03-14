@@ -17,11 +17,11 @@ public class Movie {
     private String description;
     private String director;
     private String genre;
-    private String duration_min;
+    private int duration_min;
     private String poster_url;
 
     @OneToMany(mappedBy = "movie")
-    @JsonBackReference
+    @JsonBackReference(value = "movie-screening")
     private Set<Screening> screenings = new HashSet<>();
 
     public int getId() {
@@ -64,11 +64,11 @@ public class Movie {
         this.genre = genre;
     }
 
-    public String getDuration_min() {
+    public int getDuration_min() {
         return duration_min;
     }
 
-    public void setDuration_min(String durationMin) {
+    public void setDuration_min(int durationMin) {
         this.duration_min = durationMin;
     }
 

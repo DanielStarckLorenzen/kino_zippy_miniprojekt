@@ -5,12 +5,12 @@
     <title>Index</title>
 </head>
 <body>
-<script src="/js/main.js"></script>
  <!--Lav film som kan smides ned i databasen -->
 <div class="addMovieToDatabase">
-    <label>ID:
+    <form id="addMovieForm">
+    <!--<label>ID:
         <input type="number" id="id">
-    </label>
+    </label>-->
     <br>
     <label>Title:
         <input type="text" id="title">
@@ -40,7 +40,11 @@
         <input type="text" id="genre">
     </label>
     <br>
-    <button type="submit" onclick="newMovie()">Submit!</button>
+    <button type="submit" id="pbAddMovie">Submit!</button>
+    </form>
 </div>
+
+
+ <script src="/js/main.js"></script>
 </body>
 </html>

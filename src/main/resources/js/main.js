@@ -1,32 +1,28 @@
-let body = {};
-
 const urlPostMovie = "http://localhost:8080/createMovie";
 
 function newMovie() {
-    let movie = {
-        id: document.getElementById("id").value,
+    const movie = {
         title: document.getElementById("title").value,
         director: document.getElementById("director").value,
         cast: document.getElementById("cast").value,
+        durationMin: document.getElementById("durationMin").value,
         description: document.getElementById("description").value,
-        duration_min: document.getElementById("durationMin").value,
-        poster_url: document.getElementById("posterUrl").value,
-        genre: document.getElementById("genre").value
-    };
+        genre: document.getElementById("genre").value,
+        posterUrl: document.getElementById("posterUrl").value,
+    }
     postMovie(movie);
 }
 
-async function postMovie(movie) {
-    body = JSON.stringify(movie);
-    console.log(body);
-    postMovieRequest.body = body;
-    fetch(urlPostMovie, postMovieRequest).catch((error) => console.log(error));
+function fetchMovie(url, postMovieRequest) {
+    return fetch(url, postMovieRequest).then(response => response.json);
 }
-
-const postMovieRequest = {
-    method: "POST",
-    headers: {
-        "content-type": "application/json"
-    },
-    body: body
-};
+async function postMovie(movie) {
+    const postMovieRequest = {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(movie)
+    };
+   await fetchMovie(urlPostMovie, postMovieRequest);
+}
