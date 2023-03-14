@@ -1,0 +1,13 @@
+.createMovieInputLeft {
+    position: absolute;
+    left: 10%;
+}
+
+.createMovieInputRight {
+    position: absolute;
+    right: 10%;
+}
+
+.posterUrlInput {
+    top: 383px;
+}
