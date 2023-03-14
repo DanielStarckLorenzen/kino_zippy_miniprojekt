@@ -13,6 +13,8 @@ function newMovie() {
         poster_url: document.getElementById("posterUrl").value,
     }
     postMovie(movie);
+    alert("Movie added");
+    window.location.reload();
 }
 
 function fetchMovie(url, postMovieRequest) {
