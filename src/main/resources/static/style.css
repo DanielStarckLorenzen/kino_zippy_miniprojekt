@@ -1,3 +1,36 @@
+body {
+    background-color: var(--pallete-color-blue);
+}
+
+.navbar {
+    background-color: rgb(60, 104, 117);
+}
+
+.nav.navbar-nav li a {
+    color: white;
+}
+
+.nav.navbar-nav li a :hover {
+    color: antiquewhite;
+}
+
+.navbar-brand {
+    color: white;
+}
+
+.dropdown-menu {
+    background-color: rgb(60, 104, 117);
+}
+
+.dropdown-item {
+    color: white;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: #335C67;
+}
+
 .createMovieInputLeft {
     position: absolute;
     left: 10%;
@@ -15,4 +48,12 @@
 .posterImage {
     width: 260px;
     height: 365px;
+}
+
+:root {
+    --pallete-color-blue: #335C67;
+    --pallete-color-cream: #FFF3B0;
+    --pallete-color-gold: #E09F3E;
+    --pallete-color-red: #9E2A2B;
+    --pallete-color-wine: #540B0E;
 }

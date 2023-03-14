@@ -30,3 +30,28 @@ async function postMovie(movie) {
     };
    await fetchMovie(urlPostMovie, postMovieRequest);
 }
+
+const posterUrlInput = document.getElementById("posterUrl");
+posterUrlInput.addEventListener("input", updateMoviePoster);
+
+function updateMoviePoster() {
+    let poster = document.getElementById("poster");
+    /*let posterUrl = posterUrlInput.value;
+    if (posterUrl.checkValidity() === true) {
+        poster.src = posterUrl;
+    } else {
+        poster.src = "https://via.placeholder.com/150";
+    }
+
+     */
+
+    const posterUrl = posterUrlInput.value;
+    const img = new Image();
+    img.onload = () => {
+        poster.src = posterUrl;
+    };
+    img.onerror = () => {
+        poster.src = "https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png";
+    };
+    img.src = posterUrl;
+}
