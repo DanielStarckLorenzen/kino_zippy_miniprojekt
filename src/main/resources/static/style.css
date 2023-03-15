@@ -103,6 +103,15 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
+.editMoviePoster {
+    width: 250px;
+    height: 366px;
+}
+
+#pbCancelMovie {
+    margin-right: 20px;
+}
+
 :root {
     --pallete-color-blue: #335C67;
     --pallete-color-cream: #FFF3B0;

@@ -81,6 +81,14 @@ function createCard(movie) {
     moviePoster.classList.add("card-img-top");
     moviePoster.classList.add("moviePoster");
     movieCard.appendChild(moviePoster);
+    const img = new Image();
+    img.onload = () => {
+        moviePoster.src = movie.poster_url;
+    };
+    img.onerror = () => {
+        moviePoster.src = "https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png";
+    };
+    img.src = movie.poster_url;
 
     const movieCardBody = document.createElement("div");
     movieCardBody.classList.add("card-body");
@@ -127,18 +135,30 @@ function seeSelectedCard(movie){
     posterUrl.value = movie.poster_url;
     let posterSelectedUrl = posterUrl.value;
 
-    let poster = document.querySelector(".moviePoster");
+    const poster = document.querySelector(".editMoviePoster");
 
-    let img = new Image();
+    const img = new Image();
     img.onload = () => {
-        poster.src = posterSelectedUrl;
+        poster.src = movie.poster_url;
     };
     img.onerror = () => {
         poster.src = "https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png";
     };
-    img.src = posterSelectedUrl;
-    return movie
+    img.src = movie.poster_url;
+
+    const pbCancelEditMovie = document.getElementById("pbCancelMovie");
+    pbCancelEditMovie.addEventListener("click", cancelEditMovie);
 }
+
+function cancelEditMovie() {
+    console.log("cancel");
+    const selectedCard = document.getElementById("selectedCardOverlay");
+    selectedCard.classList.remove("show");
+    selectedCard.classList.add("hide");
+    const seeMovies = document.getElementById("seeMovies");
+    seeMovies.classList.remove("fadeBackground");
+}
+
 
 
 
