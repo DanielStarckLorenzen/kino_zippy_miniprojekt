@@ -103,6 +103,11 @@ function createCard(movie) {
     movieDescription.classList.add("card-text");
     movieDescription.innerText = movie.description;
     movieCardBody.appendChild(movieDescription);
+
+    const pbSearchMovie = document.querySelector(".movieSearchButton");
+    pbSearchMovie.addEventListener("click", searchMovie);
+    const inputSearchMovie = document.querySelector(".movieSearch");
+    inputSearchMovie.addEventListener("input", searchMovie);
 }
 
 function seeSelectedCard(movie){
@@ -159,7 +164,19 @@ function cancelEditMovie() {
     seeMovies.classList.remove("fadeBackground");
 }
 
-
+function searchMovie() {
+    const input = document.querySelector(".movieSearch");
+    const filter = input.value.toUpperCase();
+    const movieCards = document.getElementsByClassName("movieCard");
+    for (let i = 0; i < movieCards.length; i++) {
+        let movieTitle = movieCards[i].getElementsByTagName("h5")[0];
+        if (movieTitle.innerText.toUpperCase().indexOf(filter) > -1) {
+            movieCards[i].style.display = "";
+        } else {
+            movieCards[i].style.display = "none";
+        }
+    }
+}
 
 
 
