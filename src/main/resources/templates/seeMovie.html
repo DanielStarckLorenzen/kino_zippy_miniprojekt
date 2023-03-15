@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body onload="showAllMovies()">
+
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Screening
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Create reservation</a></li>
+                        <li><a class="dropdown-item" href="#">See Reservations</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Create Screening</a></li>
+                        <li><a class="dropdown-item" href="#">See Screenings</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Movie
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="createMovie.html">Create Movie</a></li>
+                        <li><a class="dropdown-item" href="seeMovie.html">See Movies</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#">Analytics</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div id="seeMovies">
+<h3>Click a movie to edit</h3>
+<div class="container text-center">
+    <div class="row row-cols-auto">
+        <div class="card movieCards" style="width: 17rem;" onclick="seeSelectedCard()">
+            <img src="https://www.themoviedb.org/t/p/original/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" id="cardTitle1">Interstellar</h5>
+                <p class="card-text" id="cardDescription1">A space adventure directed by Christopher Nolan, starring Matthew McConaughey</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="hide" id="selectedCardOverlay">
+    <div class="card selectedCard">
+        <div class="card-body">
+            <div class="createMovieInputLeft editMovieLeft w-25">
+                <div class="input-group mb-3" >
+                    <span class="input-group-text" id="basic-addon1">Title</span>
+                    <input type="text" class="form-control" placeholder="Movie Title" aria-label="Username" aria-describedby="basic-addon1" id="title" required>
+                </div>
+                <br>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon2">Director</span>
+                    <input type="text" class="form-control" placeholder="Movie Director" aria-label="Username" aria-describedby="basic-addon1" id="director" required>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-text">Cast</span>
+                    <textarea class="form-control" aria-label="With textarea" id="cast" required></textarea>
+                </div>
+                <br>
+                <div class="input-group ">
+                    <span class="input-group-text">Description</span>
+                    <textarea class="form-control" aria-label="With textarea" id="description" required></textarea>
+                </div>
+                <br>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon3">Duration min.</span>
+                    <input type="number" class="form-control" placeholder="Duration in minutes" aria-label="Username" aria-describedby="basic-addon1" id="durationMin" required>
+                </div>
+                <br>
+                <select class="form-select" aria-label="Default select example" id="genre">
+                    <option selected>Genre</option>
+                    <option value="Action">Action</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Sci-Fi">Sci-Fi</option>
+                </select>
+                <br>
+                <button type="submit" id="pbDeleteMovie" class="btn btn-danger">Delete</button>
+            </div>
+
+            <div class="createMovieInputRight editMovieRight w-25">
+                <img src="https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png" class="rounded float-end posterImage" alt="Movie Poster Missing" id="poster">
+                <div class="input-group mb-3 posterUrlInput">
+                    <span class="input-group-text" id="basic-addon4">Poster Url</span>
+                    <input type="text" class="form-control" placeholder="Poster URL" aria-label="Username" aria-describedby="basic-addon1" id="posterUrl" required>
+                </div>
+                <br>
+                <button type="submit" id="pbCancelMovie" class="btn btn-warning">Cancel</button>
+                <button type="submit" id="pbSaveMovie" class="btn btn-succes">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</body>
+</html>

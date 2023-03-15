@@ -1,4 +1,5 @@
 const urlPostMovie = "http://localhost:8080/createMovie";
+const urlGetMovies = "http://localhost:8080/getMovies";
 
 const pbAddMovie = document.getElementById("pbAddMovie");
 pbAddMovie.addEventListener("click", newMovie);
@@ -36,15 +37,6 @@ posterUrlInput.addEventListener("input", updateMoviePoster);
 
 function updateMoviePoster() {
     let poster = document.getElementById("poster");
-    /*let posterUrl = posterUrlInput.value;
-    if (posterUrl.checkValidity() === true) {
-        poster.src = posterUrl;
-    } else {
-        poster.src = "https://via.placeholder.com/150";
-    }
-
-     */
-
     const posterUrl = posterUrlInput.value;
     const img = new Image();
     img.onload = () => {
@@ -55,3 +47,93 @@ function updateMoviePoster() {
     };
     img.src = posterUrl;
 }
+
+
+
+function fetchAllMovies(url) {
+    console.log(url);
+    return fetch(url).then((response) => response.json());
+}
+
+async function showAllMovies() {
+    console.log("Show movies")
+    let movieList = await fetchAllMovies(urlGetMovies);
+    console.log(movieList);
+
+
+    movieList.forEach(createCard)
+}
+
+
+
+function createCard(movie) {
+    const movieContainer = document.querySelector(".row-cols-auto");
+    const movieCard = document.createElement("div");
+    movieCard.classList.add("card");
+    movieCard.classList.add("movieCard");
+    movieCard.addEventListener("click", seeSelectedCard);
+    movieCard.style.width = "17rem";
+    movieContainer.appendChild(movieCard);
+
+    const moviePoster = document.createElement("img");
+    moviePoster.classList.add("card-img-top");
+    const img = new Image();
+    img.onload = () => {
+        moviePoster.src = movie.poster_url;
+    };
+    img.onerror = () => {
+        moviePoster.src = "https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png";
+    };
+    img.src = movie.poster_url;
+    movieCard.appendChild(moviePoster);
+
+    const movieCardBody = document.createElement("div");
+    movieCardBody.classList.add("card-body");
+    movieCard.appendChild(movieCardBody);
+
+    const movieTitle = document.createElement("h5");
+    movieTitle.classList.add("card-title");
+    movieTitle.innerText = movie.title;
+    movieCardBody.appendChild(movieTitle);
+
+    const movieDescription = document.createElement("p");
+    movieDescription.classList.add("card-text");
+    movieDescription.innerText = movie.description;
+    movieCardBody.appendChild(movieDescription);
+}
+
+function seeSelectedCard(){
+    console.log("See selected card");
+    let movie = {};
+    const selectedCard = document.getElementById("selectedCardOverlay");
+    selectedCard.classList.remove("hide");
+    selectedCard.classList.add("show");
+    const seeMovies = document.getElementById("seeMovies");
+    seeMovies.classList.add("fadeBackground");
+ /*
+    const title = document.getElementById("title");
+    title.innerText = movie.title;
+
+    const director = document.getElementById("director");
+    director.innerText = movie.director;
+
+    const cast = document.getElementById("cast");
+    cast.innerText = movie.cast;
+
+    const description = document.getElementById("description");
+    description.innerText = movie.description;
+
+    const durationMin = document.getElementById("durationMin");
+    durationMin.innerText = movie.duration_min;
+
+    const genre = document.getElementById("genre");
+    genre.selectedIndex = movie.genre;
+
+    const posterUrl = document.getElementById("posterUrl");
+    posterUrl.innerText = movie.poster_url;
+*/
+}
+
+
+
+

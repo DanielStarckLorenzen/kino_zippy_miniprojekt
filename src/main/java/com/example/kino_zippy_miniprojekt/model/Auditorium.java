@@ -25,7 +25,7 @@ public class Auditorium {
     @JsonBackReference(value = "auditorium-seat")
     private Set<Seat> seats = new HashSet<>();
 
-    public int getId() {
+    public int getId(int i) {
         return id;
     }
 

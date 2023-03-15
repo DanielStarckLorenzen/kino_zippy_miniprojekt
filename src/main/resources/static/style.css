@@ -2,6 +2,18 @@ body {
     background-color: var(--pallete-color-blue);
 }
 
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.fadeBackground {
+    opacity: 30%;
+}
+
 .navbar {
     background-color: rgb(60, 104, 117);
 }
@@ -10,12 +22,18 @@ body {
     color: white;
 }
 
-.nav.navbar-nav li a :hover {
-    color: antiquewhite;
+.nav.navbar-nav li a:hover,
+.nav.navbar-nav li a:focus {
+    color:#d5d5d5;
 }
 
 .navbar-brand {
     color: white;
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus {
+    color: #d5d5d5;
 }
 
 .dropdown-menu {
@@ -29,6 +47,37 @@ body {
 .dropdown-item:hover,
 .dropdown-item:focus {
     background-color: #335C67;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: white;
+}
+
+.card-body {
+    color: black;
+}
+
+.card-title {
+    color: white;
+}
+
+.card-text {
+    color: #c9c9c9;
+}
+
+.card {
+    background-color: rgba(158, 42, 43, 0.77);
+    margin: 20px;
+}
+
+.selectedCard {
+    top: 10%;
+    left: 25%;
+    position: fixed;
+    margin: 0 auto;
+    width: 50%;
+    height: 700px;
+    background-color: rgba(158, 42, 43, 0.95);
 }
 
 .createMovieInputLeft {
@@ -48,6 +97,10 @@ body {
 .posterImage {
     width: 260px;
     height: 365px;
+}
+
+.editMovieLeft, .editMovieRight {
+
 }
 
 :root {

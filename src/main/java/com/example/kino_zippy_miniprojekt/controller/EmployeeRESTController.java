@@ -2,10 +2,14 @@ package com.example.kino_zippy_miniprojekt.controller;
 
 import com.example.kino_zippy_miniprojekt.model.Movie;
 import com.example.kino_zippy_miniprojekt.model.Screening;
+import com.example.kino_zippy_miniprojekt.model.Seat;
 import com.example.kino_zippy_miniprojekt.repository.MovieRepository;
 import com.example.kino_zippy_miniprojekt.repository.ScreeningRepository;
+import com.example.kino_zippy_miniprojekt.repository.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -37,6 +41,10 @@ public class EmployeeRESTController {
         return null;
     }
 
+    @GetMapping("/getMovies")
+    public List<Movie> getMovies() {
+        return movieRepository.findAll();
+    }
 
 }
 
