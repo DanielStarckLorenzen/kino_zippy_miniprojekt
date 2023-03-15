@@ -1,5 +1,6 @@
 const urlPostMovie = "http://localhost:8080/createMovie";
 const urlGetMovies = "http://localhost:8080/getMovies";
+const urlEditMovie = "http://localhost:8080/editMovie";
 
 const pbAddMovie = document.getElementById("pbAddMovie");
 pbAddMovie.addEventListener("click", newMovie);
@@ -13,7 +14,7 @@ function newMovie() {
         genre: document.getElementById("genre").value,
         poster_url: document.getElementById("posterUrl").value,
     }
-    postMovie(movie);
+    postMovie(movie, urlPostMovie);
     alert("Movie added");
     window.location.reload();
 }
@@ -21,7 +22,7 @@ function newMovie() {
 function fetchMovie(url, postMovieRequest) {
     return fetch(url, postMovieRequest).then(response => response.json);
 }
-async function postMovie(movie) {
+async function postMovie(movie, url) {
     const postMovieRequest = {
         method: "POST",
         headers: {
@@ -29,7 +30,7 @@ async function postMovie(movie) {
         },
         body: JSON.stringify(movie)
     };
-   await fetchMovie(urlPostMovie, postMovieRequest);
+   await fetchMovie(url, postMovieRequest);
 }
 
 const posterUrlInput = document.getElementById("posterUrl");
@@ -108,6 +109,9 @@ function createCard(movie) {
     pbSearchMovie.addEventListener("click", searchMovie);
     const inputSearchMovie = document.querySelector(".movieSearch");
     inputSearchMovie.addEventListener("input", searchMovie);
+
+
+
 }
 
 function seeSelectedCard(movie){
@@ -153,6 +157,11 @@ function seeSelectedCard(movie){
 
     const pbCancelEditMovie = document.getElementById("pbCancelMovie");
     pbCancelEditMovie.addEventListener("click", cancelEditMovie);
+
+    const pbEditMovie = document.getElementById("pbSaveMovie");
+    pbEditMovie.addEventListener("click", function() {
+        editMovie(movie);
+    });
 }
 
 function cancelEditMovie() {
@@ -178,6 +187,20 @@ function searchMovie() {
     }
 }
 
+function editMovie(movie) {
+    movie = {
+        title: document.getElementById("title").value,
+        director: document.getElementById("director").value,
+        cast: document.getElementById("cast").value,
+        duration_min: document.getElementById("durationMin").value,
+        description: document.getElementById("description").value,
+        genre: document.getElementById("genre").value,
+        poster_url: document.getElementById("posterUrl").value,
+    }
+    postMovie(movie, urlEditMovie);
+    alert("Movie edited successfully");
+    cancelEditMovie();
+}
 
 
 

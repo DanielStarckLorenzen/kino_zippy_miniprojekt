@@ -6,6 +6,7 @@ import com.example.kino_zippy_miniprojekt.model.Seat;
 import com.example.kino_zippy_miniprojekt.repository.MovieRepository;
 import com.example.kino_zippy_miniprojekt.repository.ScreeningRepository;
 import com.example.kino_zippy_miniprojekt.repository.SeatRepository;
+import com.example.kino_zippy_miniprojekt.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,14 +25,18 @@ public class EmployeeRESTController {
     @Autowired
     private SeatRepository seatRepository;
 
+    @Autowired
+    private MovieService movieService;
+
     @PostMapping("/createMovie")
     public Movie createMovie(@RequestBody Movie movie) {
         return movieRepository.save(movie);
     }
 
     @PostMapping("/editMovie")
-    public Movie editMovie(@RequestBody Movie movie) {
-        return null;
+    public void editMovie(@RequestBody Movie movie) {
+        System.out.println(movie.getTitle());
+        movieService.updateMovie(movie);
     }
 
     @PostMapping("/deleteMovie")
