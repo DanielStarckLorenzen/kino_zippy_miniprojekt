@@ -111,12 +111,18 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 1px;
 }
 
-.editMovieLeft, .editMovieRight {
+.editMovieLeft {
+    width: 300px;
+    margin-left: -30px;
+}
 
+.editMovieRight {
+    margin-right: -30px;
+    width: 270px;
 }
 
 .editMoviePoster {
-    width: 250px;
+    width: 270px;
     height: 366px;
 }
 
@@ -136,9 +142,10 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 15px;
 }
 
-#pbCancelMovie {
-    margin-right: 20px;
+#pbSaveMovie {
+    margin-left: 128px;
 }
+
 
 :root {
     --pallete-color-blue: #335C67;
