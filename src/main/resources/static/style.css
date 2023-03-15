@@ -108,6 +108,22 @@ h1, h2, h3, h4, h5, h6 {
     height: 366px;
 }
 
+.movieSearchDiv {
+    position: absolute;
+    right: 80px;
+    top: 70px;
+}
+
+.movieSearchButton {
+    background-color: #1b8754;
+    color: white;
+}
+
+#seeMovies h3 {
+    margin-left: 80px;
+    margin-top: 15px;
+}
+
 #pbCancelMovie {
     margin-right: 20px;
 }
