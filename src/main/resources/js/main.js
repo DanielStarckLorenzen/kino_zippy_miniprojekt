@@ -71,20 +71,15 @@ function createCard(movie) {
     const movieCard = document.createElement("div");
     movieCard.classList.add("card");
     movieCard.classList.add("movieCard");
-    movieCard.addEventListener("click", seeSelectedCard);
+    movieCard.addEventListener("click", function () {
+        seeSelectedCard(movie);
+    });
     movieCard.style.width = "17rem";
     movieContainer.appendChild(movieCard);
 
     const moviePoster = document.createElement("img");
     moviePoster.classList.add("card-img-top");
-    const img = new Image();
-    img.onload = () => {
-        moviePoster.src = movie.poster_url;
-    };
-    img.onerror = () => {
-        moviePoster.src = "https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png";
-    };
-    img.src = movie.poster_url;
+    moviePoster.classList.add("moviePoster");
     movieCard.appendChild(moviePoster);
 
     const movieCardBody = document.createElement("div");
@@ -112,7 +107,7 @@ function seeSelectedCard(){
     seeMovies.classList.add("fadeBackground");
  /*
     const title = document.getElementById("title");
-    title.innerText = movie.title;
+    title.value = movie.title;
 
     const director = document.getElementById("director");
     director.innerText = movie.director;
@@ -124,15 +119,17 @@ function seeSelectedCard(){
     description.innerText = movie.description;
 
     const durationMin = document.getElementById("durationMin");
-    durationMin.innerText = movie.duration_min;
+    durationMin.value = movie.duration_min;
 
     const genre = document.getElementById("genre");
-    genre.selectedIndex = movie.genre;
+    genre.value = movie.genre;
 
     const posterUrl = document.getElementById("posterUrl");
     posterUrl.innerText = movie.poster_url;
 */
 }
+
+
 
 
 
