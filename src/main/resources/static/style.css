@@ -99,6 +99,14 @@ h1, h2, h3, h4, h5, h6 {
     height: 365px;
 }
 
+.moviePoster {
+    width: 279px;
+    height: 380px;
+    border-radius: 5px;
+    margin-left: -10px;
+    margin-top: 1px;
+}
+
 .editMovieLeft, .editMovieRight {
 
 }

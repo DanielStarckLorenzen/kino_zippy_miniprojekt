@@ -74,7 +74,7 @@ function createCard(movie) {
     movieCard.addEventListener("click", function () {
         seeSelectedCard(movie);
     });
-    movieCard.style.width = "17rem";
+    movieCard.style.width = "285px";
     movieContainer.appendChild(movieCard);
 
     const moviePoster = document.createElement("img");
