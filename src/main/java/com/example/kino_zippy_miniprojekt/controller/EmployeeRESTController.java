@@ -16,10 +16,13 @@ import java.util.List;
 public class EmployeeRESTController {
 
     @Autowired
-    MovieRepository movieRepository;
+    private MovieRepository movieRepository;
 
     @Autowired
-    ScreeningRepository screeningRepository;
+    private ScreeningRepository screeningRepository;
+
+    @Autowired
+    private SeatRepository seatRepository;
 
     @PostMapping("/createMovie")
     public Movie createMovie(@RequestBody Movie movie) {
