@@ -1,6 +1,7 @@
 const urlPostMovie = "http://localhost:8080/createMovie";
 const urlGetMovies = "http://localhost:8080/getMovies";
 const urlEditMovie = "http://localhost:8080/editMovie";
+const urlDeleteMovie = "http://localhost:8080/deleteMovie"
 
 const pbAddMovie = document.getElementById("pbAddMovie");
 pbAddMovie.addEventListener("click", newMovie);
@@ -162,6 +163,11 @@ function seeSelectedCard(movie){
     pbEditMovie.addEventListener("click", function() {
         editMovie(movie);
     });
+
+    const pbDeleteMovie = document.getElementById("pbDeleteMovie");
+    pbDeleteMovie.addEventListener("click", function (){
+        deleteMovie(movie)
+    });
 }
 
 function cancelEditMovie() {
@@ -202,6 +208,10 @@ function editMovie(movie) {
     cancelEditMovie();
 }
 
+function deleteMovie(movie){
+    postMovie(movie, urlDeleteMovie);
+    cancelEditMovie();
+}
 
 
 
