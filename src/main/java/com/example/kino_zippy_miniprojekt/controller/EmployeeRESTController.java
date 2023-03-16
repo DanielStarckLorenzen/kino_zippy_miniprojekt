@@ -3,6 +3,7 @@ package com.example.kino_zippy_miniprojekt.controller;
 import com.example.kino_zippy_miniprojekt.model.Movie;
 import com.example.kino_zippy_miniprojekt.model.Screening;
 import com.example.kino_zippy_miniprojekt.model.Seat;
+import com.example.kino_zippy_miniprojekt.repository.AuditoriumRepository;
 import com.example.kino_zippy_miniprojekt.repository.MovieRepository;
 import com.example.kino_zippy_miniprojekt.repository.ScreeningRepository;
 import com.example.kino_zippy_miniprojekt.repository.SeatRepository;
@@ -29,6 +30,9 @@ public class EmployeeRESTController {
 
     @Autowired
     private MovieService movieService;
+
+    @Autowired
+    private AuditoriumRepository auditoriumRepository;
 
     @PostMapping("/createMovie")
     public Movie createMovie(@RequestBody Movie movie) {
