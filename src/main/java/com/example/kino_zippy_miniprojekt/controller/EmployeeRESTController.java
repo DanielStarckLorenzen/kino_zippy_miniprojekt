@@ -33,10 +33,16 @@ public class EmployeeRESTController {
         return movieRepository.save(movie);
     }
 
-    @PostMapping("/editMovie")
-    public void editMovie(@RequestBody Movie movie) {
-        System.out.println(movie.getTitle());
-        movieService.updateMovie(movie);
+    @PutMapping("/editMovie/{id}")
+    public ResponseEntity<Movie> editMovie(@RequestBody Movie movie, @PathVariable int id) {
+        System.out.println(movie.getId());
+        if (movieService.checkIfMovieExists(id)) {
+            System.out.println(movie.getTitle());
+            System.out.println("Movie exists");
+            movieRepository.save(movie);
+            return new ResponseEntity<>(movie, HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
     @PostMapping("/deleteMovie")
@@ -45,8 +51,14 @@ public class EmployeeRESTController {
     }
 
     @PostMapping("/createScreening")
-    public Movie createScreening(@RequestBody Screening screening) {
-        return null;
+    public Screening createScreening(@RequestBody Screening screening) {
+        
+        return screeningRepository.save(screening);
+    }
+
+    @GetMapping("/getScreenings")
+    public List<Screening> getScreenings(){
+        return screeningRepository.findAll();
     }
 
     @GetMapping("/getMovies")

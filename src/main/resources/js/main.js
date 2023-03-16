@@ -34,6 +34,36 @@ async function postMovie(movie, url) {
    await fetchMovie(url, postMovieRequest);
 }
 
+async function postScreening(screening, url) {
+    const postScreeningRequest = {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(screening)
+    };
+    await fetchMovie(url, postScreeningRequest);
+}
+
+async function putMovie(movie, url) {
+    const putMovieRequest = {
+        method: "PUT",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: ""
+    };
+    const jsonString = JSON.stringify(movie);
+    putMovieRequest.body = jsonString;
+
+    const response = await fetchMovie(url, putMovieRequest);
+    console.log(response);
+    if (!response.ok) {
+        alert("Det gik ikke godt med update");
+    }
+    return response;
+}
+
 const posterUrlInput = document.getElementById("posterUrl");
 posterUrlInput.addEventListener("input", updateMoviePoster);
 
@@ -209,6 +239,7 @@ function editMovie(movie) {
 }
 
 function deleteMovie(movie){
+    console.log(movie.id)
     postMovie(movie, urlDeleteMovie);
     cancelEditMovie();
 }

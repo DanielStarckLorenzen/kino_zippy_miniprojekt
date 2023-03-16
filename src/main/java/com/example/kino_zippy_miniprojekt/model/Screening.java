@@ -31,20 +31,20 @@ public class Screening {
         return id;
     }
 
-    public Date getScreeningStart() {
-        return screeningStart;
+    public String getScreening_start() {
+        return screening_start;
     }
 
     public void setScreeningStart(Date screeningStart) {
         this.screeningStart = screeningStart;
     }
 
-    public Date getScreeningDate() {
-        return screeningDate;
+    public String getScreening_date() {
+        return screening_date;
     }
 
-    public void setScreeningDate(Date screeningDate) {
-        this.screeningDate = screeningDate;
+    public void setScreening_date(String screeningDate) {
+        this.screening_date = screeningDate;
     }
 
     public Auditorium getAuditorium() {
