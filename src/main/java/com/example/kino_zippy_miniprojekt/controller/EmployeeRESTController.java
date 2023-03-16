@@ -1,5 +1,6 @@
 package com.example.kino_zippy_miniprojekt.controller;
 
+import com.example.kino_zippy_miniprojekt.model.Auditorium;
 import com.example.kino_zippy_miniprojekt.model.Movie;
 import com.example.kino_zippy_miniprojekt.model.Screening;
 import com.example.kino_zippy_miniprojekt.model.Seat;
@@ -56,9 +57,12 @@ public class EmployeeRESTController {
         movieRepository.delete(movie);
     }
 
-    @PostMapping("/createScreening")
-    public Screening createScreening(@RequestBody Screening screening) {
-        
+    @PostMapping("/createScreening/{movie_id}/{auditorium_id}")
+    public Screening createScreening(@RequestBody Screening screening, @PathVariable int movie_id, @PathVariable int auditorium_id) {
+        Movie movie = movieRepository.findById(movie_id).get();
+        screening.setMovie(movie);
+        Auditorium auditorium = auditoriumRepository.findById(auditorium_id).get();
+        screening.setAuditorium(auditorium);
         return screeningRepository.save(screening);
     }
 
