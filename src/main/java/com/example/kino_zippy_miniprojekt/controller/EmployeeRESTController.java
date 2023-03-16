@@ -8,6 +8,8 @@ import com.example.kino_zippy_miniprojekt.repository.ScreeningRepository;
 import com.example.kino_zippy_miniprojekt.repository.SeatRepository;
 import com.example.kino_zippy_miniprojekt.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

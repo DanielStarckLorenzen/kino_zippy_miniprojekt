@@ -13,10 +13,9 @@ public class MovieService {
     @Autowired
     MovieRepository movieRepository;
 
-    public void updateMovie(Movie movie) {
-        int id = movie.getId();
-        System.out.println("id = " + id);
-        movieRepository.setMovieInfoById(movie.getTitle(), movie.getDirector(), movie.getCast(), movie.getDuration_min(), movie.getPoster_url(), movie.getGenre(), movie.getDescription(), id);
+    public boolean checkIfMovieExists(int id) {
+        Optional<Movie> findMovie = movieRepository.findMovieById(id);
+        return findMovie.isPresent();
 
     }
 

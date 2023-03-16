@@ -74,7 +74,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 20px;
 }
 
-.selectedCard {
+.selectedCard, .selectedCardForScreening {
     top: 10%;
     left: 25%;
     position: fixed;
@@ -111,12 +111,12 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 1px;
 }
 
-.editMovieLeft {
+.editMovieLeft, .createScreeningLeft {
     width: 300px;
     margin-left: -30px;
 }
 
-.editMovieRight {
+.editMovieRight, .createScreeningRight {
     margin-right: -30px;
     width: 270px;
 }

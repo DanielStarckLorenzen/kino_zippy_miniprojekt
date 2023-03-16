@@ -3,7 +3,6 @@ package com.example.kino_zippy_miniprojekt.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,8 +11,8 @@ public class Screening {
 
     @Id
     private int id;
-    private Date screeningStart;
-    private Date screeningDate;
+    private String screening_start;
+    private String screening_date;
 
     @ManyToOne
     @JoinColumn(name = "Projection_Room", referencedColumnName = "id")
@@ -35,8 +34,8 @@ public class Screening {
         return screening_start;
     }
 
-    public void setScreeningStart(Date screeningStart) {
-        this.screeningStart = screeningStart;
+    public void setScreening_start(String screeningStart) {
+        this.screening_start = screeningStart;
     }
 
     public String getScreening_date() {

@@ -1,7 +1,8 @@
 const urlPostMovie = "http://localhost:8080/createMovie";
 const urlGetMovies = "http://localhost:8080/getMovies";
 const urlEditMovie = "http://localhost:8080/editMovie";
-const urlDeleteMovie = "http://localhost:8080/deleteMovie"
+const urlDeleteMovie = "http://localhost:8080/deleteMovie";
+const urlCreateScreening = "http://localhost:8080/createScreening";
 
 const pbAddMovie = document.getElementById("pbAddMovie");
 pbAddMovie.addEventListener("click", newMovie);
@@ -104,7 +105,11 @@ function createCard(movie) {
     movieCard.classList.add("card");
     movieCard.classList.add("movieCard");
     movieCard.addEventListener("click", function () {
-        seeSelectedCard(movie);
+        if (window.location.href.indexOf("createScreening") > -1) {
+            seeSelectedCardForScreening(movie);
+        } else {
+            seeSelectedCard(movie);
+        }
     });
     movieCard.style.width = "285px";
     movieContainer.appendChild(movieCard);
@@ -224,16 +229,7 @@ function searchMovie() {
 }
 
 function editMovie(movie) {
-    movie = {
-        title: document.getElementById("title").value,
-        director: document.getElementById("director").value,
-        cast: document.getElementById("cast").value,
-        duration_min: document.getElementById("durationMin").value,
-        description: document.getElementById("description").value,
-        genre: document.getElementById("genre").value,
-        poster_url: document.getElementById("posterUrl").value,
-    }
-    postMovie(movie, urlEditMovie);
+    putMovie(movie, urlEditMovie + "/" + movie.id);
     alert("Movie edited successfully");
     cancelEditMovie();
 }
@@ -242,6 +238,59 @@ function deleteMovie(movie){
     console.log(movie.id)
     postMovie(movie, urlDeleteMovie);
     cancelEditMovie();
+}
+
+function seeSelectedCardForScreening(movie) {
+    console.log(movie);
+    const selectedCard = document.getElementById("selectedCardOverlayForScreening");
+    selectedCard.classList.remove("hide");
+    selectedCard.classList.add("show");
+    const seeMovies = document.getElementById("seeMovies");
+    seeMovies.classList.add("fadeBackground");
+
+   /* const movieTheater = document.createElement("h5");
+    movieTheater.classList.add("card-title");
+    movieTitle.innerText = movie.title;
+    movieCardBody.appendChild(movieTitle);*/
+
+    /*
+    const poster = document.getElementById("poster");
+    const img = new Image();
+    img.onload = () => {
+        poster.src = movie.poster_url;
+    };
+    img.onerror = () => {
+        poster.src = "https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png";
+    };
+    img.src = movie.poster_url;
+
+     */
+
+    const pbSaveScreening = document.getElementById("pbSaveScreening")
+    pbSaveScreening.addEventListener("click", function() {
+        createScreening(movie);
+    });
+}
+
+function createScreening(movie) {
+    const cinema1 = document.getElementById("option1");
+    let cinema1Id = cinema1.value;
+    const cinema2 = document.getElementById("option2");
+    let cinema2Id = cinema2.value;
+    let cinemaId = 1;
+    if (cinema1.checked) {
+        cinemaId = cinema1Id;
+    } else cinemaId = cinema2Id;
+
+    console.log(cinemaId);
+    const screening ={
+        projection_room: cinemaId,
+        projection_movie: movie.id,
+        screening_start: document.getElementById("screeningTime").value,
+        screening_date: document.getElementById("screeningDate").value,
+    }
+    postScreening(screening,urlCreateScreening);
+    alert("Movie added");
 }
 
 
