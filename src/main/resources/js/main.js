@@ -315,6 +315,8 @@ function createScreeningCard(screening) {
         const existingMovie = existingScreenings[i].querySelector(".card-title").innerText;
         if (existingMovie === movie.title) {
             const screenings = document.querySelector(".card-text");
+            const linebreak = document.createElement("br");
+            screenings.append(linebreak);
             screenings.append(screening.screening_date + " " + screening.screening_start);
             console.log(`Screening for ${movie.title} already exists`);
             return; // Exit the function if screening already exists
