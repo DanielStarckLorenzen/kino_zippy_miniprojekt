@@ -12,6 +12,7 @@ body {
 
 .fadeBackground {
     opacity: 30%;
+    pointer-events: none;
 }
 
 .navbar {
