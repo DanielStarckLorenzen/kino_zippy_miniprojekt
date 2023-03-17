@@ -305,13 +305,15 @@ function cancelCreateScreening() {
     seeMovies.classList.remove("fadeBackground");
 }
 
-function createScreeningCard(movie, screening) {
+function createScreeningCard(screening) {
+    let movie = screening.projection_movie;
+    console.log(movie);
     const screeningContainer = document.querySelector(".row-cols-auto");
     const screeningCard = document.createElement("div");
     screeningCard.classList.add("card");
     screeningCard.classList.add("movieCard");
     screeningCard.addEventListener("click", function () {
-        editScreening(movie, screening);
+        editScreening(screening);
     });
     screeningCard.style.width = "285px";
     screeningContainer.appendChild(screeningCard);
@@ -320,6 +322,7 @@ function createScreeningCard(movie, screening) {
     moviePoster.classList.add("card-img-top");
     moviePoster.classList.add("moviePoster");
     screeningCard.appendChild(moviePoster);
+
     const img = new Image();
     img.onload = () => {
         moviePoster.src = movie.poster_url;
@@ -328,6 +331,7 @@ function createScreeningCard(movie, screening) {
         moviePoster.src = "https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png";
     };
     img.src = movie.poster_url;
+
 
     const screeningCardBody = document.createElement("div");
     screeningCardBody.classList.add("card-body");
@@ -350,7 +354,7 @@ function createScreeningCard(movie, screening) {
 
 }
 
-function editScreening(movie, screening) {
+function editScreening(screening) {
 
 }
 
@@ -362,18 +366,25 @@ function fetchAllScreenings(url){
 async function showAllScreenings(){
     let movieList = await fetchAllMovies(urlGetMovies);
     let screeningList = await fetchAllScreenings(urlGetScreenings);
-    console.log(screeningList.size + " " + movieList.size);
-    for (let i = 0; screeningList.size; i++) {
-        let screening = screeningList.get(i);
+    console.log(screeningList.length + " " + movieList.length);
+
+    screeningList.forEach(createScreeningCard);
+/*
+    for (let i = 0; movieList.length > i; i++) {
+        let movie = movieList.at(i);
         console.log("jeg er i yderste loop");
         console.log(screening);
         for (let j = 0; movieList.size; j++) {
             let movie = movieList.get(j);
             console.log("Jeg er nu i inderste loop");
-            console.log(movie);
-            if (movie.id === screening.projection_movie) {
+            console.log(screening.projection_movie);
+            if (movie.id == screening.projection_movie) {
                 createScreeningCard(movie, screening);
             }
         }
     }
+
+ */
+
+
 }

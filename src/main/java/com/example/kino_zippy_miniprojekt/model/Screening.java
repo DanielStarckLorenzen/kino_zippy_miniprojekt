@@ -16,11 +16,11 @@ public class Screening {
 
     @ManyToOne
     @JoinColumn(name = "Projection_Room", referencedColumnName = "id")
-    private Auditorium auditorium;
+    private Auditorium projection_room;
 
     @ManyToOne
     @JoinColumn(name = "Projection_Movie", referencedColumnName = "id")
-    private Movie movie;
+    private Movie projection_movie;
 
     @OneToMany(mappedBy = "screening")
     @JsonBackReference(value = "screening-reservation")
@@ -46,20 +46,20 @@ public class Screening {
         this.screening_date = screeningDate;
     }
 
-    public Auditorium getAuditorium() {
-        return auditorium;
+    public Auditorium getProjection_room() {
+        return projection_room;
     }
 
-    public void setAuditorium(Auditorium auditorium) {
-        this.auditorium = auditorium;
+    public void setProjection_room(Auditorium auditorium) {
+        this.projection_room = auditorium;
     }
 
-    public Movie getMovie() {
-        return movie;
+    public Movie getProjection_movie() {
+        return projection_movie;
     }
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
+    public void setProjection_movie(Movie movie) {
+        this.projection_movie = movie;
     }
 
     public Set<Reservation> getKommuner() {
