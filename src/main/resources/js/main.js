@@ -94,7 +94,6 @@ async function showAllMovies() {
     let movieList = await fetchAllMovies(urlGetMovies);
     console.log(movieList);
 
-
     movieList.forEach(createCard)
 }
 
@@ -355,4 +354,26 @@ function editScreening(movie, screening) {
 
 }
 
+function fetchAllScreenings(url){
+    console.log(url);
+    return fetch(url).then((response) => response.json());
+}
 
+async function showAllScreenings(){
+    let movieList = await fetchAllMovies(urlGetMovies);
+    let screeningList = await fetchAllScreenings(urlGetScreenings);
+    console.log(screeningList.size + " " + movieList.size);
+    for (let i = 0; screeningList.size; i++) {
+        let screening = screeningList.get(i);
+        console.log("jeg er i yderste loop");
+        console.log(screening);
+        for (let j = 0; movieList.size; j++) {
+            let movie = movieList.get(j);
+            console.log("Jeg er nu i inderste loop");
+            console.log(movie);
+            if (movie.id === screening.projection_movie) {
+                createScreeningCard(movie, screening);
+            }
+        }
+    }
+}
