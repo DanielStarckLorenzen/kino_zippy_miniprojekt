@@ -373,9 +373,9 @@ async function showAllScreenings(){
     for (let i = 0; movieList.length > i; i++) {
         let movie = movieList.at(i);
         console.log("jeg er i yderste loop");
-        console.log(screening);
-        for (let j = 0; movieList.size; j++) {
-            let movie = movieList.get(j);
+        console.log(movie);
+        for (let j = 0; screeningList.length > j; j++) {
+            let screening = screeningList.at(j);
             console.log("Jeg er nu i inderste loop");
             console.log(screening.projection_movie);
             if (movie.id == screening.projection_movie) {
