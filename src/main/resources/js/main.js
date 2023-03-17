@@ -270,6 +270,8 @@ function seeSelectedCardForScreening(movie) {
     pbSaveScreening.addEventListener("click", function() {
         createScreening(movie);
     });
+    const pbCancelScreening = document.getElementById("pbCancelScreening");
+    pbCancelScreening.addEventListener("click", cancelCreateScreening);
 }
 
 function createScreening(movie) {
@@ -289,9 +291,18 @@ function createScreening(movie) {
         screening_start: document.getElementById("screeningTime").value,
         screening_date: document.getElementById("screeningDate").value,
     }
-    postScreening(screening,urlCreateScreening);
-    alert("Movie added");
+    postScreening(screening,urlCreateScreening + "/" + movie.id + "/" + cinemaId);
+    alert("Screening added");
+
 }
 
+function cancelCreateScreening() {
+    console.log("cancel");
+    const selectedCard = document.getElementById("selectedCardOverlayForScreening");
+    selectedCard.classList.remove("show");
+    selectedCard.classList.add("hide");
+    const seeMovies = document.getElementById("seeMovies");
+    seeMovies.classList.remove("fadeBackground");
+}
 
 
