@@ -60,6 +60,7 @@ public class EmployeeRESTController {
     public Screening createScreening(@RequestBody Screening screening, @PathVariable int movie_id, @PathVariable int auditorium_id) {
         Movie movie = movieRepository.findById(movie_id).get();
         screening.setProjection_movie(movie);
+        System.out.println("Auditorium id: " + auditorium_id);
         Auditorium auditorium = auditoriumRepository.findById(auditorium_id).get();
         screening.setProjection_room(auditorium);
         return screeningRepository.save(screening);

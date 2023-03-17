@@ -285,14 +285,14 @@ function createScreening(movie) {
     } else cinemaId = cinema2Id;
 
     console.log(cinemaId);
-    const screening ={
-        projection_room: cinemaId,
-        projection_movie: movie.id,
+    const screening = {
         screening_start: document.getElementById("screeningTime").value,
         screening_date: document.getElementById("screeningDate").value,
     }
+    console.log(screening);
     postScreening(screening,urlCreateScreening + "/" + movie.id + "/" + cinemaId);
     alert("Screening added");
+    cancelCreateScreening();
 
 }
 

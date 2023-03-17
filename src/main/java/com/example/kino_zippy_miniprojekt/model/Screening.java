@@ -24,7 +24,7 @@ public class Screening {
 
     @OneToMany(mappedBy = "screening")
     @JsonBackReference(value = "screening-reservation")
-    private Set<Reservation> kommuner = new HashSet<>();
+    private Set<Reservation> reservation = new HashSet<>();
 
     public int getId() {
         return id;
@@ -62,11 +62,11 @@ public class Screening {
         this.projection_movie = movie;
     }
 
-    public Set<Reservation> getKommuner() {
-        return kommuner;
+    public Set<Reservation> getReservation() {
+        return reservation;
     }
 
-    public void setKommuner(Set<Reservation> kommuner) {
-        this.kommuner = kommuner;
+    public void setReservation(Set<Reservation> kommuner) {
+        this.reservation = kommuner;
     }
 }
