@@ -59,6 +59,49 @@
   </div>
 </div>
 
+<div class="hide" id="selectedCardOverlayForScreeningEdit">
+  <div class="card selectedCardForScreeningEdit">
+    <div class="card-body">
+      <div class="createMovieInputLeft editScreeningLeft">
+        <br>
+        <h4>Edit a screening</h4>
+        <br>
+        <select class="selectScreeningDateTime" id="screeningSelect"></select>
+        <br>
+        <br>
+        <div class="input-group mb-3" >
+          <input type="radio" class="btn-check radioButton" name="options" id="option1" autocomplete="off" value=1 checked>
+          <label class="btn btn-outline-primary" for="option1">Cinema 1</label>
+
+          <input type="radio" class="btn-check radioButton" name="options" id="option2" autocomplete="off" value=2>
+          <label class="btn btn-outline-primary" for="option2">Cinema 2</label>
+        </div>
+        <br>
+        <div class="input-group mb-3" >
+          <span class="input-group-text" id="basic-addon2">Date</span>
+          <input type="date" class="form-control" aria-label="DateTime" aria-describedby="basic-addon1" id="screeningDate" required>
+        </div>
+        <br>
+        <div class="input-group mb-3" >
+          <span class="input-group-text" id="basic-addon3">Time</span>
+          <input type="time" class="form-control" aria-label="DateTime" aria-describedby="basic-addon1" id="screeningTime" required>
+        </div>
+        <br>
+        <button type="button" id="pbCancelScreening" class="btn btn-warning">Cancel</button>
+        <button type="submit" id="pbSaveScreening" class="btn btn-success">Save</button>
+      </div>
+
+      <div class="createMovieInputRight editScreeningRight">
+        <img src="https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png" class="rounded float-end editMoviePoster" alt="Movie Poster Missing">
+        <br>
+        <h5 class="card-title editScreeningMovieTitle"></h5>
+        <p class="card-text editScreeningMovieGenre"></p>
+        <p class="card-text editScreeningMovieDuration"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script src="/js/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>

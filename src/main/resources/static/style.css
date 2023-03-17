@@ -54,7 +54,7 @@ h1, h2, h3, h4, h5, h6 {
     color: white;
 }
 
-.card {
+.movieCard {
     cursor: pointer;
 }
 
@@ -75,7 +75,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 20px;
 }
 
-.selectedCard, .selectedCardForScreening {
+.selectedCard, .selectedCardForScreening, .selectedCardForScreeningEdit {
     top: 10%;
     left: 25%;
     position: fixed;
@@ -112,12 +112,12 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 1px;
 }
 
-.editMovieLeft, .createScreeningLeft {
+.editMovieLeft, .createScreeningLeft, .editScreeningLeft {
     width: 300px;
     margin-left: -30px;
 }
 
-.editMovieRight, .createScreeningRight {
+.editMovieRight, .createScreeningRight, .editScreeningRight {
     margin-right: -30px;
     width: 270px;
 }
@@ -138,7 +138,8 @@ h1, h2, h3, h4, h5, h6 {
     color: white;
 }
 
-#seeMovies h3 {
+#seeMovies h3,
+#seeScreenings h3 {
     margin-left: 80px;
     margin-top: 15px;
 }
@@ -146,6 +147,11 @@ h1, h2, h3, h4, h5, h6 {
 #pbSaveMovie {
     margin-left: 128px;
 }
+
+.btn-outline-primary {
+    border-radius: 5px;
+}
+
 
 
 :root {

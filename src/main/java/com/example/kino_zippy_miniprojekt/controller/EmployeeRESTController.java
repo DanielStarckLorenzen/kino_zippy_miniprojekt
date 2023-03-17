@@ -59,10 +59,10 @@ public class EmployeeRESTController {
     @PostMapping("/createScreening/{movie_id}/{auditorium_id}")
     public Screening createScreening(@RequestBody Screening screening, @PathVariable int movie_id, @PathVariable int auditorium_id) {
         Movie movie = movieRepository.findById(movie_id).get();
-        screening.setProjection_movie(movie);
+        screening.setProjectionMovie(movie);
         System.out.println("Auditorium id: " + auditorium_id);
         Auditorium auditorium = auditoriumRepository.findById(auditorium_id).get();
-        screening.setProjection_room(auditorium);
+        screening.setProjectionRoom(auditorium);
         return screeningRepository.save(screening);
 
     }
@@ -70,6 +70,23 @@ public class EmployeeRESTController {
     @GetMapping("/getScreenings")
     public List<Screening> getScreenings(){
         return screeningRepository.findAll();
+    }
+
+    @GetMapping("/getMovieScreenings/{id}")
+    public List<Screening> getMovieScreenings(@PathVariable int id){
+        System.out.println("Id: " + id);
+        Movie movie = movieRepository.findMovieById(id).get();
+        return screeningRepository.findAllByProjectionMovie(movie);
+    }
+
+    @PutMapping("/updateScreening/{id}")
+    public Screening updateScreening(@RequestBody Screening screening, @PathVariable int id) {
+        System.out.println("Id: " + id);
+        screening = screeningRepository.findById(id).get();
+
+        System.out.println(screening.getId());
+
+        return screeningRepository.save(screening);
     }
 
     @GetMapping("/getMovies")

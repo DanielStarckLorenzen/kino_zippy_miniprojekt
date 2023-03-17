@@ -16,7 +16,7 @@ public class Auditorium {
     private String name;
     private int seatsNo;
 
-    @OneToMany(mappedBy = "projection_room")
+    @OneToMany(mappedBy = "projectionRoom")
     @JsonBackReference(value = "auditorium-screening")
     private Set<Screening> screenings = new HashSet<>();
 

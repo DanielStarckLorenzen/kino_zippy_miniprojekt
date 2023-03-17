@@ -21,7 +21,7 @@ public class Movie {
     private int duration_min;
     private String poster_url;
 
-    @OneToMany(mappedBy = "projection_movie")
+    @OneToMany(mappedBy = "projectionMovie")
     @JsonBackReference(value = "movie-screening")
     private Set<Screening> screenings = new HashSet<>();
 

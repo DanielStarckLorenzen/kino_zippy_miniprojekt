@@ -62,6 +62,7 @@
     <div class="card selectedCardForScreening">
         <div class="card-body">
             <div class="createMovieInputLeft createScreeningLeft">
+                <br>
                 <div class="input-group mb-3" >
                     <input type="radio" class="btn-check radioButton" name="options" id="option1" autocomplete="off" value=1 checked>
                     <label class="btn btn-outline-primary" for="option1">Cinema 1</label>
@@ -81,13 +82,17 @@
                     <span class="input-group-text" id="basic-addon3">Time</span>
                     <input type="time" class="form-control" aria-label="DateTime" aria-describedby="basic-addon1" id="screeningTime" required>
                 </div>
-            </div>
-
-            <div class="createMovieInputRight createScreeningRight">
-                <br>
                 <br>
                 <button type="button" id="pbCancelScreening" class="btn btn-warning">Cancel</button>
                 <button type="submit" id="pbSaveScreening" class="btn btn-success">Save</button>
+            </div>
+
+            <div class="createMovieInputRight createScreeningRight">
+                <img src="https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png" class="rounded float-end editMoviePoster" alt="Movie Poster Missing">
+                <br>
+                <h5 class="card-title createScreeningMovieTitle"></h5>
+                <p class="card-text createScreeningMovieGenre"></p>
+                <p class="card-text createScreeningMovieDuration"></p>
             </div>
         </div>
     </div>

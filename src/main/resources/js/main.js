@@ -4,6 +4,8 @@ const urlEditMovie = "http://localhost:8080/editMovie";
 const urlDeleteMovie = "http://localhost:8080/deleteMovie";
 const urlCreateScreening = "http://localhost:8080/createScreening";
 const urlGetScreenings = "http://localhost:8080/getScreenings";
+const urlGetMovieScreenings = "http://localhost:8080/getMovieScreenings";
+const urlUpdateScreening = "http://localhost:8080/updateScreening";
 
 const pbAddMovie = document.getElementById("pbAddMovie");
 pbAddMovie.addEventListener("click", newMovie);
@@ -235,9 +237,10 @@ function editMovie(movie) {
 }
 
 function deleteMovie(movie){
-    console.log(movie.id)
+    console.log(movie.id);
     postMovie(movie, urlDeleteMovie);
     cancelEditMovie();
+    window.location.reload();
 }
 
 function seeSelectedCardForScreening(movie) {
@@ -248,13 +251,8 @@ function seeSelectedCardForScreening(movie) {
     const seeMovies = document.getElementById("seeMovies");
     seeMovies.classList.add("fadeBackground");
 
-   /* const movieTheater = document.createElement("h5");
-    movieTheater.classList.add("card-title");
-    movieTitle.innerText = movie.title;
-    movieCardBody.appendChild(movieTitle);*/
+    const poster = document.querySelector(".editMoviePoster");
 
-    /*
-    const poster = document.getElementById("poster");
     const img = new Image();
     img.onload = () => {
         poster.src = movie.poster_url;
@@ -264,7 +262,14 @@ function seeSelectedCardForScreening(movie) {
     };
     img.src = movie.poster_url;
 
-     */
+    const movieTitle = document.querySelector(".createScreeningMovieTitle");
+    movieTitle.innerText = movie.title;
+
+    const movieGenre = document.querySelector(".createScreeningMovieGenre");
+    movieGenre.innerText = movie.genre;
+
+    const movieDuration = document.querySelector(".createScreeningMovieDuration");
+    movieDuration.innerText = movie.duration_min + " minutes";
 
     const pbSaveScreening = document.getElementById("pbSaveScreening")
     pbSaveScreening.addEventListener("click", function() {
@@ -307,31 +312,32 @@ function cancelCreateScreening() {
 }
 
 function createScreeningCard(screening) {
-    let movie = screening.projection_movie;
-    console.log(movie);
-
+    let movie = screening.projectionMovie;
     const existingScreenings = document.querySelectorAll(".movieCard");
     for (let i = 0; i < existingScreenings.length; i++) {
-        const existingMovie = existingScreenings[i].querySelector(".card-title").innerText;
-        if (existingMovie === movie.title) {
-            const screeningCardBody = document.getElementById(movie.id);
-            const newScreenings = document.createElement("p");
-            newScreenings.classList.add(".card-text");
-            newScreenings.style.color = "#c9c9c9";
-            newScreenings.innerText = screening.screening_date + " " + screening.screening_start;
-            console.log(`Screening for ${movie.title} already exists`);
-            screeningCardBody.appendChild(newScreenings);
-            return; // Exit the function if screening already exists
+        let movie2 = existingScreenings[i].querySelector(".card-title").innerText;
+        if (movie2 === screening.projectionMovie.title) {
+            const existingMovie = existingScreenings[i].querySelector(".card-title").innerText;
+            if (existingMovie === movie.title) {
+                const screeningCardBody = document.getElementById(movie.id);
+                const newScreenings = document.createElement("p");
+                newScreenings.classList.add("card-text");
+                newScreenings.innerText = screening.screening_date + " " + screening.screening_start;
+                newScreenings.classList.add("screen" + screening.id);
+                newScreenings.setAttribute("value", screening.id);
+                console.log(`Screening for ${movie.title} already exists`);
+                screeningCardBody.appendChild(newScreenings);
+                return; // Exit the function if screening already exists
+            }
         }
     }
-
 
     const screeningContainer = document.querySelector(".row-cols-auto");
     const screeningCard = document.createElement("div");
     screeningCard.classList.add("card");
     screeningCard.classList.add("movieCard");
     screeningCard.addEventListener("click", function () {
-        editScreening(screening);
+        editScreening(screening.projectionMovie, screening);
     });
     screeningCard.style.width = "285px";
     screeningContainer.appendChild(screeningCard);
@@ -364,8 +370,14 @@ function createScreeningCard(screening) {
     const screenings = document.createElement("p");
     screenings.classList.add("card-text");
     screenings.innerText = screening.screening_date +"  "+ screening.screening_start;
+    screenings.classList.add("screen" + screening.id);
+    screenings.setAttribute("value", screening.id);
     screeningCardBody.appendChild(screenings);
 
+    const pbScreeningCard = document.querySelector(".card");
+    pbScreeningCard.addEventListener("click", function() {
+        editScreening(movie);
+    });
     const pbSearchMovie = document.querySelector(".movieSearchButton");
     pbSearchMovie.addEventListener("click", searchMovie);
     const inputSearchMovie = document.querySelector(".movieSearch");
@@ -373,8 +385,83 @@ function createScreeningCard(screening) {
 
 }
 
-function editScreening(screening) {
+function editScreening(movie, screening) {
+    console.log(screening);
+    console.log(movie);
+    const selectedCard = document.getElementById("selectedCardOverlayForScreeningEdit");
+    selectedCard.classList.remove("hide");
+    selectedCard.classList.add("show");
+    const seeScreenings = document.getElementById("seeScreenings");
+    seeScreenings.classList.add("fadeBackground");
 
+    const poster = document.querySelector(".editMoviePoster");
+
+    const img = new Image();
+    img.onload = () => {
+        poster.src = movie.poster_url;
+    };
+    img.onerror = () => {
+        poster.src = "https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png";
+    };
+    img.src = movie.poster_url;
+
+    const movieTitle = document.querySelector(".editScreeningMovieTitle");
+    movieTitle.innerText = movie.title;
+
+    const movieGenre = document.querySelector(".editScreeningMovieGenre");
+    movieGenre.innerText = movie.genre;
+
+    const movieDuration = document.querySelector(".editScreeningMovieDuration");
+    movieDuration.innerText = movie.duration_min + " minutes";
+
+    //const selectedScreeningDate = document.querySelector(".selectScreeningDate");
+    //const selectedScreeningTime = document.querySelector(".selectScreeningTime");
+
+    const screeningSelect = document.getElementById("screeningSelect");
+
+    getAllMovieScreenings(movie).then((screenings) => {
+        const screeningList = screenings;
+        for (const screening of screenings) {
+            const option = document.createElement("option");
+            const value = `${screening.screening_date} ${screening.screening_start}`;
+            option.textContent = value;
+            option.classList.add("dateTimeOption");
+            option.setAttribute("value", screening.id);
+            screeningSelect.appendChild(option);
+        }
+
+        // get the first screening from the list of screenings
+        const firstScreening = screeningList[0];
+
+        // set the input fields with the first screening's date and time
+        const screeningDateInput = document.getElementById("screeningDate");
+        const screeningTimeInput = document.getElementById("screeningTime");
+        screeningDateInput.value = firstScreening.screening_date;
+        screeningTimeInput.value = firstScreening.screening_start;
+
+
+        screeningSelect.addEventListener("change", () => {
+            // get the selected datetime from the dropdown
+            const selectedDateTime = screeningSelect.value;
+            // get the selected screening object based on the selected datetime
+            const selectedScreening = screenings.find((screening) => {
+                return screening.id === parseInt(selectedDateTime);
+            });
+            // set the input fields with the selected screening's date and time
+            const screeningDateInput = document.getElementById("screeningDate");
+            const screeningTimeInput = document.getElementById("screeningTime");
+            screeningDateInput.value = selectedScreening.screening_date;
+            screeningTimeInput.value = selectedScreening.screening_start;
+
+        });
+    });
+
+
+    const pbSaveScreening = document.getElementById("pbSaveScreening")
+    pbSaveScreening.addEventListener("click", updateScreening);
+
+    const pbCancelScreening = document.getElementById("pbCancelScreening");
+    pbCancelScreening.addEventListener("click", cancelEditScreening);
 }
 
 function fetchAllScreenings(url){
@@ -388,22 +475,61 @@ async function showAllScreenings(){
     console.log(screeningList.length + " " + movieList.length);
 
     screeningList.forEach(createScreeningCard);
-/*
-    for (let i = 0; movieList.length > i; i++) {
-        let movie = movieList.at(i);
-        console.log("jeg er i yderste loop");
-        console.log(movie);
-        for (let j = 0; screeningList.length > j; j++) {
-            let screening = screeningList.at(j);
-            console.log("Jeg er nu i inderste loop");
-            console.log(screening.projection_movie);
-            if (movie.id == screening.projection_movie) {
-                createScreeningCard(movie, screening);
-            }
-        }
+}
+
+function cancelEditScreening() {
+    console.log("cancel");
+    const selectedCard = document.getElementById("selectedCardOverlayForScreeningEdit");
+    selectedCard.classList.remove("show");
+    selectedCard.classList.add("hide");
+    const seeMovies = document.getElementById("seeScreenings");
+    seeMovies.classList.remove("fadeBackground");
+    window.location.reload();
+}
+
+async function getAllMovieScreenings(movie){
+    try {
+        const screeningList = await fetchAllScreenings(urlGetMovieScreenings + "/" + movie.id);
+        return screeningList;
+    } catch (error) {
+        console.error(error);
+        return [];
     }
+}
 
- */
+async function updateScreening() {
+    const screeningChosen = document.querySelector(".dateTimeOption");
+    const screeningId = screeningChosen.value;
+    const screening = {
+        screening_date: document.getElementById("screeningDate").value,
+        screening_start: document.getElementById("screeningTime").value,
+        screeningId: screeningId,
+    };
 
+    console.log(screening);
+    console.log(screeningId);
 
+    await putScreening(urlUpdateScreening + "/" + screeningId, screening);
+}
+
+async function putScreening(url, screening) {
+    const putScreeningRequest = {
+        method: "PUT",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(screening)
+    };
+    await fetchScreening(url, putScreeningRequest);
+
+}
+
+function fetchScreening(url, putScreeningRequest) {
+    console.log(url);
+    return fetch(url, putScreeningRequest)
+        .then(response => {
+            console.log(response.status);
+            console.log(response.statusText);
+            return response.json();
+        });
 }
