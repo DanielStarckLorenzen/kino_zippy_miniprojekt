@@ -3,6 +3,7 @@ const urlGetMovies = "http://localhost:8080/getMovies";
 const urlEditMovie = "http://localhost:8080/editMovie";
 const urlDeleteMovie = "http://localhost:8080/deleteMovie";
 const urlCreateScreening = "http://localhost:8080/createScreening";
+const urlGetScreenings = "http://localhost:8080/getScreenings";
 
 const pbAddMovie = document.getElementById("pbAddMovie");
 pbAddMovie.addEventListener("click", newMovie);
