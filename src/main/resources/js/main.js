@@ -344,7 +344,7 @@ function createScreeningCard(screening) {
 
     const screenings = document.createElement("p");
     screenings.classList.add("card-text");
-    screenings.innerText = screening.screening_start + screening.screening_date;
+    screenings.innerText = screening.screening_date +"  "+ screening.screening_start;
     screeningCardBody.appendChild(screenings);
 
     const pbSearchMovie = document.querySelector(".movieSearchButton");

@@ -64,6 +64,7 @@ public class EmployeeRESTController {
         Auditorium auditorium = auditoriumRepository.findById(auditorium_id).get();
         screening.setProjection_room(auditorium);
         return screeningRepository.save(screening);
+
     }
 
     @GetMapping("/getScreenings")
