@@ -314,11 +314,13 @@ function createScreeningCard(screening) {
     for (let i = 0; i < existingScreenings.length; i++) {
         const existingMovie = existingScreenings[i].querySelector(".card-title").innerText;
         if (existingMovie === movie.title) {
-            const screenings = document.querySelector(".card-text");
-            const linebreak = document.createElement("br");
-            screenings.append(linebreak);
-            screenings.append(screening.screening_date + " " + screening.screening_start);
+            const screeningCardBody = document.getElementById(movie.id);
+            const newScreenings = document.createElement("p");
+            newScreenings.classList.add(".card-text");
+            newScreenings.style.color = "#c9c9c9";
+            newScreenings.innerText = screening.screening_date + " " + screening.screening_start;
             console.log(`Screening for ${movie.title} already exists`);
+            screeningCardBody.appendChild(newScreenings);
             return; // Exit the function if screening already exists
         }
     }
@@ -351,6 +353,7 @@ function createScreeningCard(screening) {
 
     const screeningCardBody = document.createElement("div");
     screeningCardBody.classList.add("card-body");
+    screeningCardBody.id = movie.id;
     screeningCard.appendChild(screeningCardBody);
 
     const movieTitle = document.createElement("h5");
