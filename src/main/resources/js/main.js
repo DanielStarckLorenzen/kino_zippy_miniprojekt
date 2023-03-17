@@ -305,4 +305,53 @@ function cancelCreateScreening() {
     seeMovies.classList.remove("fadeBackground");
 }
 
+function createScreeningCard(movie, screening) {
+    const screeningContainer = document.querySelector(".row-cols-auto");
+    const screeningCard = document.createElement("div");
+    screeningCard.classList.add("card");
+    screeningCard.classList.add("movieCard");
+    screeningCard.addEventListener("click", function () {
+        editScreening(movie, screening);
+    });
+    screeningCard.style.width = "285px";
+    screeningContainer.appendChild(screeningCard);
+
+    const moviePoster = document.createElement("img");
+    moviePoster.classList.add("card-img-top");
+    moviePoster.classList.add("moviePoster");
+    screeningCard.appendChild(moviePoster);
+    const img = new Image();
+    img.onload = () => {
+        moviePoster.src = movie.poster_url;
+    };
+    img.onerror = () => {
+        moviePoster.src = "https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png";
+    };
+    img.src = movie.poster_url;
+
+    const screeningCardBody = document.createElement("div");
+    screeningCardBody.classList.add("card-body");
+    screeningCard.appendChild(screeningCardBody);
+
+    const movieTitle = document.createElement("h5");
+    movieTitle.classList.add("card-title");
+    movieTitle.innerText = movie.title;
+    screeningCardBody.appendChild(movieTitle);
+
+    const screenings = document.createElement("p");
+    screenings.classList.add("card-text");
+    screenings.innerText = screening.screening_start + screening.screening_date;
+    screeningCardBody.appendChild(screenings);
+
+    const pbSearchMovie = document.querySelector(".movieSearchButton");
+    pbSearchMovie.addEventListener("click", searchMovie);
+    const inputSearchMovie = document.querySelector(".movieSearch");
+    inputSearchMovie.addEventListener("input", searchMovie);
+
+}
+
+function editScreening(movie, screening) {
+
+}
+
 
