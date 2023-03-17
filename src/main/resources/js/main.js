@@ -303,11 +303,25 @@ function cancelCreateScreening() {
     selectedCard.classList.add("hide");
     const seeMovies = document.getElementById("seeMovies");
     seeMovies.classList.remove("fadeBackground");
+    window.location.reload();
 }
 
 function createScreeningCard(screening) {
     let movie = screening.projection_movie;
     console.log(movie);
+
+    const existingScreenings = document.querySelectorAll(".movieCard");
+    for (let i = 0; i < existingScreenings.length; i++) {
+        const existingMovie = existingScreenings[i].querySelector(".card-title").innerText;
+        if (existingMovie === movie.title) {
+            const screenings = document.querySelector(".card-text");
+            screenings.append(screening.screening_date + " " + screening.screening_start);
+            console.log(`Screening for ${movie.title} already exists`);
+            return; // Exit the function if screening already exists
+        }
+    }
+
+
     const screeningContainer = document.querySelector(".row-cols-auto");
     const screeningCard = document.createElement("div");
     screeningCard.classList.add("card");
