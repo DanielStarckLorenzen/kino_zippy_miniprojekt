@@ -170,12 +170,15 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
     width: 26px;
     height: 20px;
+    cursor: pointer;
 }
 
 .seat img {
     display: block;
     width: 26px;
     height: 20px;
+    /*filter: invert(84%) sepia(93%) saturate(198%) hue-rotate(326deg) brightness(101%) contrast(101%);*/
+    /*filter: invert(32%) sepia(11%) saturate(1586%) hue-rotate(146deg) brightness(94%) contrast(88%);*/
 
 }
 

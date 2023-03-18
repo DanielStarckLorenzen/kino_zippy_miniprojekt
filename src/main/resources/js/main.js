@@ -632,7 +632,7 @@ function createReservation(movie, screening) {
                         seatingPlan.appendChild(seatIcon);
 
                         const seatImage = document.createElement("img");
-                        seatImage.setAttribute("src", "https://cdn-icons-png.flaticon.com/512/4744/4744743.png");
+                        seatImage.setAttribute("src", "https://cdn-icons-png.flaticon.com/512/24/24868.png");
 
                         seatIcon.appendChild(seatImage);
                         /*
