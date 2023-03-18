@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -42,13 +43,13 @@ public class EmployeeRESTController {
 
     @PutMapping("/editMovie/{id}")
     public ResponseEntity<Movie> editMovie(@RequestBody Movie movie, @PathVariable int id) {
-        System.out.println(movie.getId());
-        if (movieService.checkIfMovieExists(id)) {
-            System.out.println(movie.getTitle());
-            System.out.println("Movie exists");
+        Optional<Movie> findMovie = movieRepository.findMovieById(id);
+        if(findMovie.isPresent()){
             movieRepository.save(movie);
             return new ResponseEntity<>(movie, HttpStatus.OK);
-        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
     }
 

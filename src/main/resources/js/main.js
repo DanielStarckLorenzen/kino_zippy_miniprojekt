@@ -51,18 +51,19 @@ async function postScreening(screening, url) {
     await fetchMovie(url, postScreeningRequest);
 }
 
-async function putMovie(movie, url) {
+async function putMovie(movie) {
+    const url = "http://localhost:8080/editMovie/" + movie.id;
     const putMovieRequest = {
         method: "PUT",
         headers: {
-            "content-type": "application/json"
+            "Content-type": "application/json"
         },
         body: ""
     };
+
     const jsonString = JSON.stringify(movie);
     putMovieRequest.body = jsonString;
-
-    const response = await fetchMovie(url, putMovieRequest);
+    const response = await fetch(url, putMovieRequest);
     console.log(response);
     if (!response.ok) {
         alert("Det gik ikke godt med update");
@@ -174,13 +175,13 @@ function seeSelectedCard(movie){
     const description = document.getElementById("description");
     description.innerText = movie.description;
 
-    const durationMin = document.getElementById("durationMin");
+    const durationMin = document.getElementById("duration_min");
     durationMin.value = movie.duration_min;
 
     const genre = document.getElementById("genre");
     genre.value = movie.genre;
 
-    const posterUrl = document.getElementById("posterUrl");
+    const posterUrl = document.getElementById("poster_url");
     posterUrl.value = movie.poster_url;
     let posterSelectedUrl = posterUrl.value;
 
@@ -209,6 +210,8 @@ function seeSelectedCard(movie){
     });
 }
 
+
+
 function cancelEditMovie() {
     console.log("cancel");
     const selectedCard = document.getElementById("selectedCardOverlay");
@@ -232,8 +235,9 @@ function searchMovie() {
     }
 }
 
-function editMovie(movie) {
-    putMovie(movie, urlEditMovie + "/" + movie.id);
+async function editMovie(movie) {
+   const response = await putMovie(movie);
+    console.log(response);
     alert("Movie edited successfully");
     cancelEditMovie();
 }
