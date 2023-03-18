@@ -3,6 +3,7 @@ package com.example.kino_zippy_miniprojekt.controller;
 import com.example.kino_zippy_miniprojekt.model.Auditorium;
 import com.example.kino_zippy_miniprojekt.model.Movie;
 import com.example.kino_zippy_miniprojekt.model.Screening;
+import com.example.kino_zippy_miniprojekt.model.Seat;
 import com.example.kino_zippy_miniprojekt.repository.AuditoriumRepository;
 import com.example.kino_zippy_miniprojekt.repository.MovieRepository;
 import com.example.kino_zippy_miniprojekt.repository.ScreeningRepository;
@@ -92,6 +93,23 @@ public class EmployeeRESTController {
     @GetMapping("/getMovies")
     public List<Movie> getMovies() {
         return movieRepository.findAll();
+    }
+
+    @GetMapping("/getSeatsFromAuditorium/{name}")
+    public List<Seat> getSeatsOutFromAuditorium(@PathVariable String name) {
+        System.out.println("L. 100 - Name: " + name);
+        Auditorium auditorium = auditoriumRepository.findAuditoriumByName(name);
+        int id = auditorium.getId();
+        return seatRepository.findAllByAuditoriumId(id);
+    }
+
+    @GetMapping("getAuditoriumFromScreening/{id}")
+    public Auditorium getAuditoriumFromScreening(@PathVariable int id) {
+        System.out.println("L.108 - Id: " + id);
+        Screening screening = screeningRepository.findById(id).get();
+        Auditorium auditorium = auditoriumRepository.findById(screening.getProjectionRoom().getId()).get();
+        System.out.println(auditorium.getId());
+        return auditorium;
     }
 
 }

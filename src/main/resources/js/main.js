@@ -6,6 +6,8 @@ const urlCreateScreening = "http://localhost:8080/createScreening";
 const urlGetScreenings = "http://localhost:8080/getScreenings";
 const urlGetMovieScreenings = "http://localhost:8080/getMovieScreenings";
 const urlUpdateScreening = "http://localhost:8080/updateScreening";
+const urlGetSeatsFromAuditorium = "http://localhost:8080/getSeatsFromAuditorium";
+const urlGetAuditoriumFromScreening = "http://localhost:8080/getAuditoriumFromScreening";
 
 const pbAddMovie = document.getElementById("pbAddMovie");
 pbAddMovie.addEventListener("click", newMovie);
@@ -592,6 +594,7 @@ function createReservation(movie, screening) {
         screeningCinema.innerText = firstScreening.projectionRoom.name;
 
 
+
         screeningSelect.addEventListener("change", () => {
             // get the selected datetime from the dropdown
             const selectedDateTime = screeningSelect.value;
@@ -599,11 +602,32 @@ function createReservation(movie, screening) {
             const selectedScreening = screenings.find((screening) => {
                 return screening.id === parseInt(selectedDateTime);
             });
-            // set the input fields with the selected screening's date and time
-            const screeningDateInput = document.getElementById("screeningDate");
-            const screeningTimeInput = document.getElementById("screeningTime");
-            screeningDateInput.value = selectedScreening.screening_date;
-            screeningTimeInput.value = selectedScreening.screening_start;
+
+            const seatingPlan = document.getElementById("seatingPlan");
+
+            getAuditoriumFromScreening(selectedScreening.id).then((auditorium) => {
+                console.log(auditorium.name);
+                getSeatsFromAuditorium(auditorium.name).then((seatList) => {
+                    console.log(seatList);
+                    for (const seat of seatList) {
+                        const seatIcon = document.createElement("a");
+                        seatIcon.classList.add("seat");
+                        seatIcon.setAttribute("data-colindex", seat.seat_number);
+                        seatIcon.setAttribute("data-rowindex", seat.row_number);
+                        seatingPlan.appendChild(seatIcon);
+
+                        const seatImage = document.createElement("svg");
+                        seatImage.setAttribute("xml:space", "preserve");
+                        seatImage.setAttribute("viewBox", "0 0 32 26");
+                        seatIcon.appendChild(seatImage);
+
+                        const seatPath = document.createElement("path");
+                        seatPath.setAttribute("d", "M2.7,19.2c-0.8,0-1.5-0.5-1.8-1.3c-0.7-2.2-1-4.8-1-7.8c0-3,0.2-5.2,0.5-6.8c0.2-1,1.2-1.6,2.2-1.4c1,0.2,1.6,1.2,1.4,2.2c-0.3,1.3-0.4,3.3-0.4,6c0,2.7,0.3,4.9,0.8,6.8c0.3,1-0.3,2-1.2,2.3C3.1,19.2,2.9,19.2,2.7,19.2z M31,17.9c0.7-2.2,1-4.8,1-7.8c0-3-0.2-5.2-0.5-6.8c-0.2-1-1.2-1.6-2.2-1.4c-1,0.2-1.6,1.2-1.4,2.2c0.3,1.3,0.4,3.3,0.4,6c0,2.7-0.3,4.9-0.8,6.8c-0.3,1,0.3,2,1.2,2.3c0.2,0.1,0.4,0.1,0.5,0.1C30,19.2,30.8,18.7,31,17.9z M6.4,3.5c-0.3,1.7-0.5,3.9-0.5,6.5c0,2.6,0.1,4.7,0.4,6.3c0.2,1.3,1.2,2.4,2.4,2.8c1.8,0.6,4.2,0.9,7.2,0.9s5.4-0.3,7.2-0.9c1.3-0.4,2.2-1.5,2.4-2.8c0.3-1.7,0.4-3.8,0.4-6.3c0-2.7-0.2-4.8-0.5-6.5c-0.3-1.3-1.2-2.4-2.6-2.8c-1.6-0.5-4-0.7-7-0.7s-5.4,0.2-7,0.7C7.7,1.1,6.7,2.2,6.4,3.5z M26.9,24c0.9-0.5,1.3-1.5,0.8-2.5c-0.5-0.9-1.6-1.3-2.5-0.8c-2.2,1.1-5.3,1.6-9.2,1.6c-4,0-7.1-0.6-9.2-1.6c-0.9-0.4-2-0.1-2.5,0.8c-0.5,0.9-0.1,2,0.8,2.5c2.7,1.4,6.3,2,10.9,2C20.6,26,24.2,25.3,26.9,24z")
+                        seatImage.appendChild(seatPath);
+                    }
+                });
+            });
+
 
         });
     });
@@ -627,4 +651,22 @@ function cancelCreateReservation() {
 
 function saveReservation() {
 
+}
+
+async function getAuditoriumFromScreening(id) {
+    console.log(id);
+    let auditorium = await fetchAllSeats(urlGetAuditoriumFromScreening + "/" + id);
+    console.log(auditorium);
+    return auditorium;
+}
+
+async function getSeatsFromAuditorium(auditoriumName) {
+    console.log(auditoriumName);
+    let seatList = await fetchAllSeats(urlGetSeatsFromAuditorium + "/" + auditoriumName);
+    return seatList;
+}
+
+function fetchAllSeats(url) {
+    console.log(url);
+    return fetch(url).then((response) => response.json());
 }
