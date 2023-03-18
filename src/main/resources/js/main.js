@@ -514,6 +514,7 @@ async function updateScreening() {
     console.log(screeningId);
 
     await putScreening(urlUpdateScreening + "/" + screeningId, screening);
+    cancelEditScreening();
 }
 
 async function putScreening(url, screening) {
