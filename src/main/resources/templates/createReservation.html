@@ -73,11 +73,15 @@
                 <p class="card-text createReservationMovieGenre">Genre</p>
                 <p class="card-text createReservationMovieDuration">Minutes</p>
                 <br>
-                <select class="selectScreeningDateTime form-select" id="screeningSelect"></select>
+                <select class="selectScreeningDateTime form-select" id="screeningSelect">
+                    <option value="" disabled selected>Choose a screening</option>
+                </select>
                 <br>
                 <h5 class="screeningCinema">Cinema 1</h5>
                 <br>
-                <input type="number" class="form-control" id="createReservationSeats" placeholder="Number of seats">
+                <input type="number" class="form-control" id="createReservationAmount" placeholder="Number of seats">
+                <br>
+                <input type="text" class="form-control" id="reservationContact" placeholder="Contact Person">
                 <br>
                 <button type="button" id="pbCancelReservation" class="btn btn-warning">Cancel</button>
                 <button type="submit" id="pbSaveReservation" class="btn btn-success">Save</button>

@@ -1,13 +1,7 @@
 package com.example.kino_zippy_miniprojekt.controller;
 
-import com.example.kino_zippy_miniprojekt.model.Auditorium;
-import com.example.kino_zippy_miniprojekt.model.Movie;
-import com.example.kino_zippy_miniprojekt.model.Screening;
-import com.example.kino_zippy_miniprojekt.model.Seat;
-import com.example.kino_zippy_miniprojekt.repository.AuditoriumRepository;
-import com.example.kino_zippy_miniprojekt.repository.MovieRepository;
-import com.example.kino_zippy_miniprojekt.repository.ScreeningRepository;
-import com.example.kino_zippy_miniprojekt.repository.SeatRepository;
+import com.example.kino_zippy_miniprojekt.model.*;
+import com.example.kino_zippy_miniprojekt.repository.*;
 import com.example.kino_zippy_miniprojekt.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +29,9 @@ public class EmployeeRESTController {
 
     @Autowired
     private AuditoriumRepository auditoriumRepository;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @PostMapping("/createMovie")
     public Movie createMovie(@RequestBody Movie movie) {
@@ -111,6 +108,12 @@ public class EmployeeRESTController {
         Auditorium auditorium = auditoriumRepository.findById(screening.getProjectionRoom().getId()).get();
         System.out.println(auditorium.getId());
         return auditorium;
+    }
+
+    @PostMapping("/createReservation")
+    public void createReservation(@RequestBody Reservation reservation) {
+        System.out.println("L. 117 - Reservation: " + reservation.getId());
+        reservationRepository.save(reservation);
     }
 
 }

@@ -182,6 +182,10 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
+.selected {
+    filter: invert(32%) sepia(11%) saturate(1586%) hue-rotate(146deg) brightness(94%) contrast(88%);
+}
+
 #seatingPlan {
     display: grid;
     margin-top: 5px;

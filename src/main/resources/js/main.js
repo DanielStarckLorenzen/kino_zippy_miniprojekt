@@ -8,6 +8,7 @@ const urlGetMovieScreenings = "http://localhost:8080/getMovieScreenings";
 const urlUpdateScreening = "http://localhost:8080/updateScreening";
 const urlGetSeatsFromAuditorium = "http://localhost:8080/getSeatsFromAuditorium";
 const urlGetAuditoriumFromScreening = "http://localhost:8080/getAuditoriumFromScreening";
+const urlCreateReservation = "http://localhost:8080/createReservation";
 
 const pbAddMovie = document.getElementById("pbAddMovie");
 pbAddMovie.addEventListener("click", newMovie);
@@ -577,7 +578,10 @@ function createReservation(movie, screening) {
     movieDuration.innerText = movie.duration_min + " minutes";
 
     const screeningSelect = document.getElementById("screeningSelect");
-    screeningSelect.innerHTML = ""; // remove existing options
+
+    const amountOfReservations = document.getElementById("createReservationAmount").value;
+
+    let selectedSeats = [];
 
     getAllMovieScreenings(movie).then((screenings) => {
         const screeningList = screenings;
@@ -593,13 +597,22 @@ function createReservation(movie, screening) {
         // get the first screening from the list of screenings
         const firstScreening = screeningList[0];
 
-        // set the input fields with the first screening's date and time
+        // set the default value of the screeningSelect dropdown
+        screeningSelect.value = firstScreening.id;
+
+        // trigger the change event of the screeningSelect dropdown
+        screeningSelect.dispatchEvent(new Event("change"));
+
         const screeningCinema = document.querySelector(".screeningCinema");
         screeningCinema.innerText = firstScreening.projectionRoom.name;
 
-
-
         screeningSelect.addEventListener("change", () => {
+            // remove the existing seats
+            const seats = document.querySelectorAll(".seat");
+            for (const seat of seats) {
+                seat.remove();
+            }
+
             // get the selected datetime from the dropdown
             const selectedDateTime = screeningSelect.value;
             // get the selected screening object based on the selected datetime
@@ -619,46 +632,50 @@ function createReservation(movie, screening) {
                         seatIcon.setAttribute("data-colindex", seat.seat_number);
                         seatIcon.setAttribute("data-rowindex", seat.seat_row);
                         seatIcon.setAttribute("title", "Row " + seat.seat_row + " - " + "Seat " + seat.seat_number);
+                        seatIcon.setAttribute("auditorium", auditorium.id);
                         seatingPlan.style.justifyContent = "center";
                         const seatNumbers = seatList.map(seat => seat.seat_number);
                         const seatsPerRow = Math.max(...seatNumbers);
                         console.log(seatsPerRow);
                         seatingPlan.style.gridTemplateColumns = "repeat(" + seatsPerRow + ", 1fr)";
-                        //seatIcon.style.position = "absolute";
-                        // let seatTop = seat.seat_row * 2.5;
-                        // seatIcon.style.top = seatTop + "rem";
-                        // let seatLeft = seat.seat_number * 2.5;
-                        // seatIcon.style.left = seatLeft + "rem";
                         seatingPlan.appendChild(seatIcon);
 
                         const seatImage = document.createElement("img");
                         seatImage.setAttribute("src", "https://cdn-icons-png.flaticon.com/512/24/24868.png");
-
-                        seatIcon.appendChild(seatImage);
-                        /*
-                        const seatImage = document.createElement("svg");
-                        seatImage.setAttribute("xml:space", "preserve");
-                        seatImage.setAttribute("viewBox", "0 0 32 26");
-                        seatImage.setAttribute("x", "0px");
-                        seatImage.setAttribute("y", "0px");
                         seatIcon.appendChild(seatImage);
 
-                        const seatPath = document.createElement("path");
-                        const seatIconPath = document.getElementById("seatIcon").getAttribute("d");
-                        seatPath.setAttribute("d", seatIconPath);
-                        seatImage.appendChild(seatPath);
+                        seatIcon.addEventListener("click", () => {
+                            seatAuditoriumId = seatIcon.getAttribute("auditorium");
+                            seatColIndex = seatIcon.getAttribute("data-colindex");
+                            seatRowIndex = seatIcon.getAttribute("data-rowindex");
+                            let seat = {
+                                auditoriumId: seatAuditoriumId,
+                                seat_number: seatColIndex,
+                                seat_row: seatRowIndex
+                            };
+                            if (seatIcon.classList.contains("selected")) {
+                                seatIcon.classList.remove("selected");
+                                // remove the seat from the selectedSeats array
+                                selectedSeats = selectedSeats.filter((selectedSeat) => {
+                                    return selectedSeat.seat_number !== seat.seat_number;
+                                });
 
-                         */
+                            } else {
+                                seatIcon.classList.add("selected");
+                                selectedSeats.push(seat);
+                            }
+                            console.log(selectedSeats);
+                        });
                     }
                 });
             });
-
-
         });
     });
 
     const pbSaveScreening = document.getElementById("pbSaveReservation")
-    pbSaveScreening.addEventListener("click", saveReservation);
+    pbSaveScreening.addEventListener("click", function () {
+        saveReservation(screening, selectedSeats, amountOfReservations);
+    });
 
     const pbCancelScreening = document.getElementById("pbCancelReservation");
     pbCancelScreening.addEventListener("click", cancelCreateReservation);
@@ -674,8 +691,37 @@ function cancelCreateReservation() {
     window.location.reload();
 }
 
-function saveReservation() {
+function saveReservation(screening, selectedSeats, amountOfReservations) {
 
+    const reservationContact = document.getElementById("reservationContact").value;
+
+    const reservation = {
+        reservationContact: reservationContact,
+        reserved: true,
+        paid: false,
+        active: false,
+        screening: screening,
+        seats: selectedSeats
+    }
+    console.log(reservation);
+
+    postReservation(reservation, urlCreateReservation);
+
+}
+
+async function postReservation(reservation, url) {
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reservation),
+    });
+    await fetchReservation(url, response);
+}
+
+function fetchReservation(url, postReservationRequest) {
+    return fetch(url, postReservationRequest).then(response => response.json);
 }
 
 async function getAuditoriumFromScreening(id) {
