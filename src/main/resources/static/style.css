@@ -91,7 +91,7 @@ h1, h2, h3, h4, h5, h6 {
     position: fixed;
     margin: 0 auto;
     width: 80%;
-    height: 600px;
+    height: 630px;
     background-color: rgba(158, 42, 43, 0.95);
 }
 
@@ -165,13 +165,23 @@ h1, h2, h3, h4, h5, h6 {
     color: white;
 }
 
-.icon-seat {
+.seat {
+    margin: 1px;
+    display: block;
+    width: 26px;
+    height: 20px;
+}
+
+.seat img {
+    display: block;
+    width: 26px;
+    height: 20px;
 
 }
 
-.seat svg {
-    width: 6%;
-
+#seatingPlan {
+    display: grid;
+    margin-top: 5px;
 }
 
 .screen span {
@@ -180,7 +190,7 @@ h1, h2, h3, h4, h5, h6 {
     border-top: 5px solid #d3dae2;
     padding-top: 15px;
     line-height: 1;
-    margin-top: 30px;
+    margin-top: 20px;
     left: 20%;
     position: relative;
 }
@@ -188,7 +198,7 @@ h1, h2, h3, h4, h5, h6 {
 .screen {
     text-align: center;
     text-transform: uppercase;
-    font-size: 14px;
+    font-size: 12px;
     font-family: "Inter-Black",sans-serif;
     color: #d3dae2;
 }

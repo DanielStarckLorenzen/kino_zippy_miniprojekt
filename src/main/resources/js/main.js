@@ -617,17 +617,38 @@ function createReservation(movie, screening) {
                         const seatIcon = document.createElement("a");
                         seatIcon.classList.add("seat");
                         seatIcon.setAttribute("data-colindex", seat.seat_number);
-                        seatIcon.setAttribute("data-rowindex", seat.row_number);
+                        seatIcon.setAttribute("data-rowindex", seat.seat_row);
+                        seatIcon.setAttribute("title", "Row " + seat.seat_row + " - " + "Seat " + seat.seat_number);
+                        seatingPlan.style.justifyContent = "center";
+                        const seatNumbers = seatList.map(seat => seat.seat_number);
+                        const seatsPerRow = Math.max(...seatNumbers);
+                        console.log(seatsPerRow);
+                        seatingPlan.style.gridTemplateColumns = "repeat(" + seatsPerRow + ", 1fr)";
+                        //seatIcon.style.position = "absolute";
+                        // let seatTop = seat.seat_row * 2.5;
+                        // seatIcon.style.top = seatTop + "rem";
+                        // let seatLeft = seat.seat_number * 2.5;
+                        // seatIcon.style.left = seatLeft + "rem";
                         seatingPlan.appendChild(seatIcon);
 
+                        const seatImage = document.createElement("img");
+                        seatImage.setAttribute("src", "https://cdn-icons-png.flaticon.com/512/4744/4744743.png");
+
+                        seatIcon.appendChild(seatImage);
+                        /*
                         const seatImage = document.createElement("svg");
                         seatImage.setAttribute("xml:space", "preserve");
                         seatImage.setAttribute("viewBox", "0 0 32 26");
+                        seatImage.setAttribute("x", "0px");
+                        seatImage.setAttribute("y", "0px");
                         seatIcon.appendChild(seatImage);
 
                         const seatPath = document.createElement("path");
-                        seatPath.setAttribute("d", "M2.7,19.2c-0.8,0-1.5-0.5-1.8-1.3c-0.7-2.2-1-4.8-1-7.8c0-3,0.2-5.2,0.5-6.8c0.2-1,1.2-1.6,2.2-1.4c1,0.2,1.6,1.2,1.4,2.2c-0.3,1.3-0.4,3.3-0.4,6c0,2.7,0.3,4.9,0.8,6.8c0.3,1-0.3,2-1.2,2.3C3.1,19.2,2.9,19.2,2.7,19.2z M31,17.9c0.7-2.2,1-4.8,1-7.8c0-3-0.2-5.2-0.5-6.8c-0.2-1-1.2-1.6-2.2-1.4c-1,0.2-1.6,1.2-1.4,2.2c0.3,1.3,0.4,3.3,0.4,6c0,2.7-0.3,4.9-0.8,6.8c-0.3,1,0.3,2,1.2,2.3c0.2,0.1,0.4,0.1,0.5,0.1C30,19.2,30.8,18.7,31,17.9z M6.4,3.5c-0.3,1.7-0.5,3.9-0.5,6.5c0,2.6,0.1,4.7,0.4,6.3c0.2,1.3,1.2,2.4,2.4,2.8c1.8,0.6,4.2,0.9,7.2,0.9s5.4-0.3,7.2-0.9c1.3-0.4,2.2-1.5,2.4-2.8c0.3-1.7,0.4-3.8,0.4-6.3c0-2.7-0.2-4.8-0.5-6.5c-0.3-1.3-1.2-2.4-2.6-2.8c-1.6-0.5-4-0.7-7-0.7s-5.4,0.2-7,0.7C7.7,1.1,6.7,2.2,6.4,3.5z M26.9,24c0.9-0.5,1.3-1.5,0.8-2.5c-0.5-0.9-1.6-1.3-2.5-0.8c-2.2,1.1-5.3,1.6-9.2,1.6c-4,0-7.1-0.6-9.2-1.6c-0.9-0.4-2-0.1-2.5,0.8c-0.5,0.9-0.1,2,0.8,2.5c2.7,1.4,6.3,2,10.9,2C20.6,26,24.2,25.3,26.9,24z")
+                        const seatIconPath = document.getElementById("seatIcon").getAttribute("d");
+                        seatPath.setAttribute("d", seatIconPath);
                         seatImage.appendChild(seatPath);
+
+                         */
                     }
                 });
             });
@@ -650,7 +671,7 @@ function cancelCreateReservation() {
     selectedCard.classList.add("hide");
     const seeMovies = document.getElementById("seeScreenings");
     seeMovies.classList.remove("fadeBackground");
-
+    window.location.reload();
 }
 
 function saveReservation() {
