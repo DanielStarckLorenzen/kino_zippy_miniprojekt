@@ -311,79 +311,81 @@ function cancelCreateScreening() {
     window.location.reload();
 }
 
-function createScreeningCard(screening) {
+function createScreeningCard(screening, addedScreenings) {
+    if (addedScreenings.includes(screening.id)) {
+        return;
+    }
+
     let movie = screening.projectionMovie;
     const existingScreenings = document.querySelectorAll(".movieCard");
+    let screeningCard = null;
     for (let i = 0; i < existingScreenings.length; i++) {
         let movie2 = existingScreenings[i].querySelector(".card-title").innerText;
         if (movie2 === screening.projectionMovie.title) {
             const existingMovie = existingScreenings[i].querySelector(".card-title").innerText;
             if (existingMovie === movie.title) {
-                const screeningCardBody = document.getElementById(movie.id);
-                const newScreenings = document.createElement("p");
-                newScreenings.classList.add("card-text");
-                newScreenings.innerText = screening.screening_date + " " + screening.screening_start;
-                newScreenings.classList.add("screen" + screening.id);
-                newScreenings.setAttribute("value", screening.id);
-                console.log(`Screening for ${movie.title} already exists`);
-                screeningCardBody.appendChild(newScreenings);
-                return; // Exit the function if screening already exists
+                screeningCard = existingScreenings[i];
+                break;
             }
         }
     }
 
-    const screeningContainer = document.querySelector(".row-cols-auto");
-    const screeningCard = document.createElement("div");
-    screeningCard.classList.add("card");
-    screeningCard.classList.add("movieCard");
-    screeningCard.addEventListener("click", function () {
-        editScreening(screening.projectionMovie, screening);
+    if (!screeningCard) {
+        const screeningContainer = document.querySelector(".row-cols-auto");
+        screeningCard = document.createElement("div");
+        screeningCard.classList.add("card");
+        screeningCard.classList.add("movieCard");
+        screeningCard.addEventListener("click", function () {
+            editScreening(screening.projectionMovie, screening);
+        });
+        screeningCard.style.width = "285px";
+        screeningContainer.appendChild(screeningCard);
+
+        const moviePoster = document.createElement("img");
+        moviePoster.classList.add("card-img-top");
+        moviePoster.classList.add("moviePoster");
+        screeningCard.appendChild(moviePoster);
+
+        const img = new Image();
+        img.onload = () => {
+            moviePoster.src = movie.poster_url;
+        };
+        img.onerror = () => {
+            moviePoster.src = "https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png";
+        };
+        img.src = movie.poster_url;
+
+        const screeningCardBody = document.createElement("div");
+        screeningCardBody.classList.add("card-body");
+        screeningCardBody.id = movie.id;
+        screeningCard.appendChild(screeningCardBody);
+
+        const movieTitle = document.createElement("h5");
+        movieTitle.classList.add("card-title");
+        movieTitle.innerText = movie.title;
+        screeningCardBody.appendChild(movieTitle);
+    }
+
+    const screeningCardBody = screeningCard.querySelector(".card-body");
+    const newScreenings = document.createElement("p");
+    newScreenings.classList.add("card-text");
+    newScreenings.innerText = screening.screening_date + " " + screening.screening_start;
+    newScreenings.classList.add("screen" + screening.id);
+    newScreenings.setAttribute("value", screening.id);
+    newScreenings.addEventListener("click", function() {
+        editScreening(movie, screening);
     });
-    screeningCard.style.width = "285px";
-    screeningContainer.appendChild(screeningCard);
+    screeningCardBody.appendChild(newScreenings);
 
-    const moviePoster = document.createElement("img");
-    moviePoster.classList.add("card-img-top");
-    moviePoster.classList.add("moviePoster");
-    screeningCard.appendChild(moviePoster);
-
-    const img = new Image();
-    img.onload = () => {
-        moviePoster.src = movie.poster_url;
-    };
-    img.onerror = () => {
-        moviePoster.src = "https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png";
-    };
-    img.src = movie.poster_url;
-
-
-    const screeningCardBody = document.createElement("div");
-    screeningCardBody.classList.add("card-body");
-    screeningCardBody.id = movie.id;
-    screeningCard.appendChild(screeningCardBody);
-
-    const movieTitle = document.createElement("h5");
-    movieTitle.classList.add("card-title");
-    movieTitle.innerText = movie.title;
-    screeningCardBody.appendChild(movieTitle);
-
-    const screenings = document.createElement("p");
-    screenings.classList.add("card-text");
-    screenings.innerText = screening.screening_date +"  "+ screening.screening_start;
-    screenings.classList.add("screen" + screening.id);
-    screenings.setAttribute("value", screening.id);
-    screeningCardBody.appendChild(screenings);
-
-    const pbScreeningCard = document.querySelector(".card");
-    pbScreeningCard.addEventListener("click", function() {
-        editScreening(movie);
-    });
+    //const pbScreeningCard = document.querySelector(".card");
     const pbSearchMovie = document.querySelector(".movieSearchButton");
     pbSearchMovie.addEventListener("click", searchMovie);
     const inputSearchMovie = document.querySelector(".movieSearch");
     inputSearchMovie.addEventListener("input", searchMovie);
 
+    addedScreenings.push(screening.id);
 }
+
 
 function editScreening(movie, screening) {
     console.log(screening);
@@ -414,10 +416,8 @@ function editScreening(movie, screening) {
     const movieDuration = document.querySelector(".editScreeningMovieDuration");
     movieDuration.innerText = movie.duration_min + " minutes";
 
-    //const selectedScreeningDate = document.querySelector(".selectScreeningDate");
-    //const selectedScreeningTime = document.querySelector(".selectScreeningTime");
-
     const screeningSelect = document.getElementById("screeningSelect");
+    screeningSelect.innerHTML = ""; // remove existing options
 
     getAllMovieScreenings(movie).then((screenings) => {
         const screeningList = screenings;
@@ -457,6 +457,7 @@ function editScreening(movie, screening) {
     });
 
 
+
     const pbSaveScreening = document.getElementById("pbSaveScreening")
     pbSaveScreening.addEventListener("click", updateScreening);
 
@@ -474,7 +475,10 @@ async function showAllScreenings(){
     let screeningList = await fetchAllScreenings(urlGetScreenings);
     console.log(screeningList.length + " " + movieList.length);
 
-    screeningList.forEach(createScreeningCard);
+    let addedScreenings = [];
+    screeningList.forEach(function (screening) {
+        createScreeningCard(screening, addedScreenings);
+    });
 }
 
 function cancelEditScreening() {
