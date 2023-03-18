@@ -8,8 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -103,17 +102,34 @@ public class EmployeeRESTController {
 
     @GetMapping("getAuditoriumFromScreening/{id}")
     public Auditorium getAuditoriumFromScreening(@PathVariable int id) {
-        System.out.println("L.108 - Id: " + id);
+        System.out.println("L.106 - Id: " + id);
         Screening screening = screeningRepository.findById(id).get();
         Auditorium auditorium = auditoriumRepository.findById(screening.getProjectionRoom().getId()).get();
         System.out.println(auditorium.getId());
         return auditorium;
     }
 
-    @PostMapping("/createReservation")
-    public void createReservation(@RequestBody Reservation reservation) {
-        System.out.println("L. 117 - Reservation: " + reservation.getId());
-        reservationRepository.save(reservation);
+    @PostMapping("/createReservation/{screening_id}/{seat_ids}")
+    public Reservation createReservation(@RequestBody Reservation reservation, @PathVariable int screening_id, @PathVariable int[] seat_ids) {
+        System.out.println("L. 115 - Reservation: " + reservation.getReservationContact());
+        System.out.println("L. 116 - Screening: " + screening_id);
+        reservation.setScreening(screeningRepository.findById(screening_id).get());
+
+        //Set<Seat> seats = new HashSet<>();
+        for (int seat_id : seat_ids) {
+            System.out.println("L. 119 - Seat: " + seat_id);
+            Seat seat = seatRepository.findById(seat_id).orElse(null);
+            if (seat != null) {
+                System.out.println("Seat id: " + seat.getId());
+                seat.setReservation(reservation);
+
+                seatRepository.save(seat);
+            }
+            //seats.add(seatRepository.findById(seat_id).get());
+        }
+        //reservation.setSeats(seats);
+
+        return reservationRepository.save(reservation);
     }
 
 }

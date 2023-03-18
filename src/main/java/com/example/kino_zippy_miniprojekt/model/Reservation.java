@@ -11,13 +11,13 @@ public class Reservation {
 
     @Id
     private int id;
-    private int reservationContact;
+    private String reservationContact;
     private boolean reserved;
     private boolean paid;
     private boolean active;
 
     @ManyToOne
-    @JoinColumn(name = "Reservation_Projection", referencedColumnName = "id")
+    @JoinColumn(name = "screening_id", referencedColumnName = "id")
     private Screening screening;
 
     @OneToMany(mappedBy = "reservation")
@@ -32,11 +32,11 @@ public class Reservation {
         this.id = id;
     }
 
-    public int getReservationContact() {
+    public String getReservationContact() {
         return reservationContact;
     }
 
-    public void setReservationContact(int reservationContact) {
+    public void setReservationContact(String reservationContact) {
         this.reservationContact = reservationContact;
     }
 

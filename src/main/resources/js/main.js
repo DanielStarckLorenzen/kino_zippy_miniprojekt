@@ -648,7 +648,8 @@ function createReservation(movie, screening) {
                             seatAuditoriumId = seatIcon.getAttribute("auditorium");
                             seatColIndex = seatIcon.getAttribute("data-colindex");
                             seatRowIndex = seatIcon.getAttribute("data-rowindex");
-                            let seat = {
+                            let choosenSeat = {
+                                id: seat.id,
                                 auditoriumId: seatAuditoriumId,
                                 seat_number: seatColIndex,
                                 seat_row: seatRowIndex
@@ -657,12 +658,12 @@ function createReservation(movie, screening) {
                                 seatIcon.classList.remove("selected");
                                 // remove the seat from the selectedSeats array
                                 selectedSeats = selectedSeats.filter((selectedSeat) => {
-                                    return selectedSeat.seat_number !== seat.seat_number;
+                                    return selectedSeat.seat_number !== choosenSeat.seat_number;
                                 });
 
                             } else {
                                 seatIcon.classList.add("selected");
-                                selectedSeats.push(seat);
+                                selectedSeats.push(choosenSeat);
                             }
                             console.log(selectedSeats);
                         });
@@ -695,17 +696,25 @@ function saveReservation(screening, selectedSeats, amountOfReservations) {
 
     const reservationContact = document.getElementById("reservationContact").value;
 
+    console.log(selectedSeats);
+    const selectedSeatsIds = [];
+    for (const seat of selectedSeats) {
+        selectedSeatsIds.push(seat.id);
+    }
+
+    console.log(selectedSeatsIds);
+
     const reservation = {
         reservationContact: reservationContact,
         reserved: true,
         paid: false,
         active: false,
-        screening: screening,
-        seats: selectedSeats
+        seats: selectedSeats,
+        screening: screening
     }
     console.log(reservation);
 
-    postReservation(reservation, urlCreateReservation);
+    postReservation(reservation, urlCreateReservation + "/" + screening.id + "/" + selectedSeatsIds);
 
 }
 
@@ -734,6 +743,7 @@ async function getAuditoriumFromScreening(id) {
 async function getSeatsFromAuditorium(auditoriumName) {
     console.log(auditoriumName);
     let seatList = await fetchAllSeats(urlGetSeatsFromAuditorium + "/" + auditoriumName);
+    console.log(seatList);
     return seatList;
 }
 
