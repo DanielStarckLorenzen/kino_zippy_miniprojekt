@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create reservation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/style.css">
 </head>
-<body>
+<body onload="showAllScreenings()">
 <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.html">Home</a>
@@ -46,6 +46,66 @@
 </nav>
 
 
+<div id="seeScreenings">
+    <h3>Which movie do you want to see?</h3>
+    <div class="input-group mb-3 w-25 movieSearchDiv">
+        <input type="text" class="form-control movieSearch" placeholder="Search for a movie title" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary movieSearchButton" type="button" id="button-addon2">Search</button>
+    </div>
+    <div class="container text-center">
+        <div class="row row-cols-auto">
+
+        </div>
+    </div>
+</div>
+
+<div class="hide" id="selectedCardOverlayForCreateReservation">
+    <div class="card selectedCardForCreateReservation">
+        <div class="card-body">
+            <div class="createMovieInputLeft createReservationLeft">
+                <br>
+                <h4>Create reservation</h4>
+                <br>
+                <img src="https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png" class="rounded float-end createReservationMoviePoster" alt="Movie Poster Missing">
+                <br>
+
+                <h5 class="card-title createReservationMovieTitle">Title</h5>
+                <p class="card-text createReservationMovieGenre">Genre</p>
+                <p class="card-text createReservationMovieDuration">Minutes</p>
+                <br>
+                <select class="selectScreeningDateTime form-select" id="screeningSelect"></select>
+                <br>
+                <h5 class="screeningCinema">Cinema 1</h5>
+                <br>
+                <input type="number" class="form-control" id="createReservationSeats" placeholder="Number of seats">
+                <br>
+                <button type="button" id="pbCancelReservation" class="btn btn-warning">Cancel</button>
+                <button type="submit" id="pbSaveReservation" class="btn btn-success">Save</button>
+            </div>
+
+            <div class="createMovieInputRight createReservationRight">
+                <div class="screen" style="left:auto;width:100%;right:0%">
+                    <i class="icon-close"></i>
+                    <span>Lærred</span>
+                </div>
+                <div class="seats">
+                    <a id="" data-colindex="11" data-rowindex="6" title="Række 01 - Sæde 9" class="icon-seat seat style-normal status-empty selectable original-status-empty">
+                        <svg x="0px" y="0px" viewBox="0 0 32 26" xml:space="preserve">
+                            <path d="M2.7,19.2c-0.8,0-1.5-0.5-1.8-1.3c-0.7-2.2-1-4.8-1-7.8c0-3,0.2-5.2,0.5-6.8c0.2-1,1.2-1.6,2.2-1.4c1,0.2,1.6,1.2,1.4,2.2
+                                c-0.3,1.3-0.4,3.3-0.4,6c0,2.7,0.3,4.9,0.8,6.8c0.3,1-0.3,2-1.2,2.3C3.1,19.2,2.9,19.2,2.7,19.2z M31,17.9c0.7-2.2,1-4.8,1-7.8
+                                c0-3-0.2-5.2-0.5-6.8c-0.2-1-1.2-1.6-2.2-1.4c-1,0.2-1.6,1.2-1.4,2.2c0.3,1.3,0.4,3.3,0.4,6c0,2.7-0.3,4.9-0.8,6.8
+                                c-0.3,1,0.3,2,1.2,2.3c0.2,0.1,0.4,0.1,0.5,0.1C30,19.2,30.8,18.7,31,17.9z M6.4,3.5c-0.3,1.7-0.5,3.9-0.5,6.5
+                                c0,2.6,0.1,4.7,0.4,6.3c0.2,1.3,1.2,2.4,2.4,2.8c1.8,0.6,4.2,0.9,7.2,0.9s5.4-0.3,7.2-0.9c1.3-0.4,2.2-1.5,2.4-2.8
+                                c0.3-1.7,0.4-3.8,0.4-6.3c0-2.7-0.2-4.8-0.5-6.5c-0.3-1.3-1.2-2.4-2.6-2.8c-1.6-0.5-4-0.7-7-0.7s-5.4,0.2-7,0.7
+                                C7.7,1.1,6.7,2.2,6.4,3.5z M26.9,24c0.9-0.5,1.3-1.5,0.8-2.5c-0.5-0.9-1.6-1.3-2.5-0.8c-2.2,1.1-5.3,1.6-9.2,1.6
+                                c-4,0-7.1-0.6-9.2-1.6c-0.9-0.4-2-0.1-2.5,0.8c-0.5,0.9-0.1,2,0.8,2.5c2.7,1.4,6.3,2,10.9,2C20.6,26,24.2,25.3,26.9,24z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="/js/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>

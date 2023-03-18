@@ -340,7 +340,11 @@ function createScreeningCard(screening, addedScreenings) {
         screeningCard.classList.add("card");
         screeningCard.classList.add("movieCard");
         screeningCard.addEventListener("click", function () {
-            editScreening(screening.projectionMovie, screening);
+            if (window.location.href.includes("seeScreening")) {
+                editScreening(movie, screening);
+            } else {
+                createReservation(movie, screening);
+            }
         });
         screeningCard.style.width = "285px";
         screeningContainer.appendChild(screeningCard);
@@ -376,9 +380,7 @@ function createScreeningCard(screening, addedScreenings) {
     newScreenings.innerText = screening.screening_date + " " + screening.screening_start;
     newScreenings.classList.add("screen" + screening.id);
     newScreenings.setAttribute("value", screening.id);
-    newScreenings.addEventListener("click", function() {
-        editScreening(movie, screening);
-    });
+
     screeningCardBody.appendChild(newScreenings);
 
     //const pbScreeningCard = document.querySelector(".card");
@@ -541,4 +543,92 @@ function fetchScreening(url, putScreeningRequest) {
             console.log(response.statusText);
             return response.json();
         });
+}
+
+function createReservation(movie, screening) {
+    console.log(screening);
+    console.log(movie);
+    const selectedCard = document.getElementById("selectedCardOverlayForCreateReservation");
+    selectedCard.classList.remove("hide");
+    selectedCard.classList.add("show");
+    const seeScreenings = document.getElementById("seeScreenings");
+    seeScreenings.classList.add("fadeBackground");
+
+    const poster = document.querySelector(".createReservationMoviePoster");
+
+    const img = new Image();
+    img.onload = () => {
+        poster.src = movie.poster_url;
+    };
+    img.onerror = () => {
+        poster.src = "https://raw.githubusercontent.com/DanielStarckLorenzen/kino_zippy_miniprojekt/master/assets/placeholder-image-vertical.png";
+    };
+    img.src = movie.poster_url;
+
+    const movieTitle = document.querySelector(".createReservationMovieTitle");
+    movieTitle.innerText = movie.title;
+
+    const movieGenre = document.querySelector(".createReservationMovieGenre");
+    movieGenre.innerText = movie.genre;
+
+    const movieDuration = document.querySelector(".createReservationMovieDuration");
+    movieDuration.innerText = movie.duration_min + " minutes";
+
+    const screeningSelect = document.getElementById("screeningSelect");
+    screeningSelect.innerHTML = ""; // remove existing options
+
+    getAllMovieScreenings(movie).then((screenings) => {
+        const screeningList = screenings;
+        for (const screening of screenings) {
+            const option = document.createElement("option");
+            const value = `${screening.screening_date} ${screening.screening_start}`;
+            option.textContent = value;
+            option.classList.add("dateTimeOption");
+            option.setAttribute("value", screening.id);
+            screeningSelect.appendChild(option);
+        }
+
+        // get the first screening from the list of screenings
+        const firstScreening = screeningList[0];
+
+        // set the input fields with the first screening's date and time
+        const screeningCinema = document.querySelector(".screeningCinema");
+        screeningCinema.innerText = firstScreening.projectionRoom.name;
+
+
+        screeningSelect.addEventListener("change", () => {
+            // get the selected datetime from the dropdown
+            const selectedDateTime = screeningSelect.value;
+            // get the selected screening object based on the selected datetime
+            const selectedScreening = screenings.find((screening) => {
+                return screening.id === parseInt(selectedDateTime);
+            });
+            // set the input fields with the selected screening's date and time
+            const screeningDateInput = document.getElementById("screeningDate");
+            const screeningTimeInput = document.getElementById("screeningTime");
+            screeningDateInput.value = selectedScreening.screening_date;
+            screeningTimeInput.value = selectedScreening.screening_start;
+
+        });
+    });
+
+    const pbSaveScreening = document.getElementById("pbSaveReservation")
+    pbSaveScreening.addEventListener("click", saveReservation);
+
+    const pbCancelScreening = document.getElementById("pbCancelReservation");
+    pbCancelScreening.addEventListener("click", cancelCreateReservation);
+}
+
+function cancelCreateReservation() {
+    console.log("cancel");
+    const selectedCard = document.getElementById("selectedCardOverlayForCreateReservation");
+    selectedCard.classList.remove("show");
+    selectedCard.classList.add("hide");
+    const seeMovies = document.getElementById("seeScreenings");
+    seeMovies.classList.remove("fadeBackground");
+
+}
+
+function saveReservation() {
+
 }
