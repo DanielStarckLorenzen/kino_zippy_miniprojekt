@@ -85,6 +85,16 @@ h1, h2, h3, h4, h5, h6 {
     background-color: rgba(158, 42, 43, 0.95);
 }
 
+.selectedCardForCreateReservation {
+    top: 10%;
+    left: 10%;
+    position: fixed;
+    margin: 0 auto;
+    width: 80%;
+    height: 600px;
+    background-color: rgba(158, 42, 43, 0.95);
+}
+
 .createMovieInputLeft {
     position: absolute;
     left: 10%;
@@ -122,9 +132,26 @@ h1, h2, h3, h4, h5, h6 {
     width: 270px;
 }
 
+.createReservationLeft {
+    width: 270px;
+    margin-left: -50px;
+}
+
+.createReservationRight {
+    margin-right: -50px;
+    width: 500px;
+}
+
 .editMoviePoster {
     width: 270px;
     height: 366px;
+}
+
+.createReservationMoviePoster {
+    width: 150px;
+    height: 203px;
+    position: relative;
+    margin-bottom: 20px;
 }
 
 .movieSearchDiv {
@@ -136,6 +163,34 @@ h1, h2, h3, h4, h5, h6 {
 .movieSearchButton {
     background-color: #1b8754;
     color: white;
+}
+
+.icon-seat {
+
+}
+
+.seat svg {
+    width: 6%;
+
+}
+
+.screen span {
+    display: block;
+    width: 60%;
+    border-top: 5px solid #d3dae2;
+    padding-top: 15px;
+    line-height: 1;
+    margin-top: 30px;
+    left: 20%;
+    position: relative;
+}
+
+.screen {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: "Inter-Black",sans-serif;
+    color: #d3dae2;
 }
 
 #seeMovies h3,
