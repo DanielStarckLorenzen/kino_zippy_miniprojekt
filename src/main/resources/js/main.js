@@ -10,6 +10,8 @@ const urlGetSeatsFromAuditorium = "http://localhost:8080/getSeatsFromAuditorium"
 const urlGetAuditoriumFromScreening = "http://localhost:8080/getAuditoriumFromScreening";
 const urlCreateReservation = "http://localhost:8080/createReservation";
 const urlCreateSeatReservation = "http://localhost:8080/createSeatReservation"
+const urlGetAllReservations = "http://localhost:8080/getAllReservations";
+const urlDeleteReservation = "http://localhost:8080/deleteReservation";
 
 const pbAddMovie = document.getElementById("pbAddMovie");
 pbAddMovie.addEventListener("click", newMovie);

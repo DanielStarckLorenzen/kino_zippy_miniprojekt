@@ -127,6 +127,18 @@ public class EmployeeRESTController {
         seatReserved.setReservation(reservation);
         return seatReservedRepository.save(seatReserved);
     }
+    
+    @GetMapping("/getAllReservations")
+    public List<Reservation> getAllReservations() {
+        return reservationRepository.findAll();
+    }
+
+    @PostMapping("/deleteReservation")
+    public void deleteReservation(@RequestBody Reservation reservation) {
+        List<SeatReserved> reservedSeatsToBeRemoved = seatReservedRepository.findAllByReservationId(reservation.getId());
+        seatReservedRepository.deleteAll(reservedSeatsToBeRemoved);
+        reservationRepository.delete(reservation);
+    }
 
 }
 
