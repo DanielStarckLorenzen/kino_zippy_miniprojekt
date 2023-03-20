@@ -786,3 +786,82 @@ function createSeatReserved(reservation, selectedSeats) {
     }
 
 }
+
+
+function createTable(reservation){
+    const tblReservation = document.getElementById("reservationTable")
+
+    let cellCount = 0
+    let rowCount = tblReservation.rows.length
+    let row = tblReservation.insertRow(rowCount)
+    row.id = reservation.id;
+
+    let cell = row.insertCell(cellCount++)
+    cell.innerHTML = reservation.reservationContact;
+
+    cell = row.insertCell(cellCount++)
+    cell.innerHTML = reservation.screening.projectionMovie.title;
+
+    cell = row.insertCell(cellCount++)
+    cell.innerHTML = reservation.screening.screening_date
+
+
+    cell = row.insertCell(cellCount++)
+    cell.innerHTML = reservation.screening.screening_start
+
+    cell = row.insertCell(cellCount++)
+    cell.innerHTML = reservation.screening.projectionRoom.name;
+
+
+    cell = row.insertCell(cellCount++)
+    cell.innerHTML = "TBA";
+
+    cell = row.insertCell(cellCount++)
+    let pbPay = document.createElement("button");
+    pbPay.type = "button";
+    pbPay.textContent = "PAY!";
+    pbPay.addEventListener("click", function () {
+        payForReservation(reservation);
+    })
+    cell.appendChild(pbPay);
+
+    cell = row.insertCell(cellCount++)
+    let pbCancel = document.createElement("button");
+    pbCancel.type = "button";
+    pbCancel.textContent = "Cancel :(";
+    pbCancel.addEventListener("click", function() {
+        deleteReservation(reservation);
+    });
+    cell.appendChild(pbCancel);
+
+
+}
+
+async function getAllReservations() {
+
+    let reservationList = await fetchAllReservations(urlGetAllReservations);
+    console.log(reservationList);
+    reservationList.forEach(createTable);
+}
+
+function fetchAllReservations(url) {
+    return fetch(url).then((response) => response.json());
+}
+
+async function deleteReservation(reservation) {
+    postReservation(reservation, urlDeleteReservation);
+    closeReservation();
+}
+
+function payForReservation(reservation) {
+
+}
+
+function closeReservation() {
+    const selectedCard = document.getElementById("selectedCardOverlayForCreateReservation");
+    selectedCard.classList.remove("show");
+    selectedCard.classList.add("hide");
+    const seeMovies = document.getElementById("seeScreenings");
+    seeMovies.classList.remove("fadeBackground");
+    window.location.reload();
+}
