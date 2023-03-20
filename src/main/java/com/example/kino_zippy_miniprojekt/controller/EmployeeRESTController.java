@@ -39,9 +39,9 @@ public class EmployeeRESTController {
         return movieRepository.save(movie);
     }
 
-    @PutMapping("/editMovie/{id}")
-    public ResponseEntity<Movie> editMovie(@RequestBody Movie movie, @PathVariable int id) {
-        Optional<Movie> findMovie = movieRepository.findMovieById(id);
+    @PutMapping("/editMovie")
+    public ResponseEntity<Movie> editMovie(@RequestBody Movie movie) {
+        Optional<Movie> findMovie = movieRepository.findMovieById(movie.getId());
         if(findMovie.isPresent()){
             movieRepository.save(movie);
             return new ResponseEntity<>(movie, HttpStatus.OK);
@@ -79,11 +79,8 @@ public class EmployeeRESTController {
         return screeningRepository.findAllByProjectionMovie(movie);
     }
 
-    @PutMapping("/updateScreening/{id}")
-    public Screening updateScreening(@RequestBody Screening screening, @PathVariable int id) {
-        System.out.println("Id: " + id);
-        screening = screeningRepository.findById(id).get();
-
+    @PutMapping("/updateScreening")
+    public Screening updateScreening(@RequestBody Screening screening) {
         System.out.println(screening.getId());
 
         return screeningRepository.save(screening);

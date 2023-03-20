@@ -58,18 +58,15 @@ async function postScreening(screening, url) {
 }
 
 async function putMovie(movie) {
-    const url = "http://localhost:8080/editMovie/" + movie.id;
     const putMovieRequest = {
         method: "PUT",
         headers: {
             "Content-type": "application/json"
         },
-        body: ""
+        body: JSON.stringify(movie)
     };
 
-    const jsonString = JSON.stringify(movie);
-    putMovieRequest.body = jsonString;
-    const response = await fetch(url, putMovieRequest);
+    const response = await fetch(urlEditMovie, putMovieRequest);
     console.log(response);
     if (!response.ok) {
         alert("Det gik ikke godt med update");
@@ -242,7 +239,28 @@ function searchMovie() {
 }
 
 async function editMovie(movie) {
-   const response = await putMovie(movie);
+    const title = document.getElementById("title");
+    movie.title = title.value;
+
+    const director = document.getElementById("director");
+    movie.director = director.value;
+
+    const cast = document.getElementById("cast");
+    movie.cast = cast.value;
+
+    const description = document.getElementById("description");
+    movie.description = description.value;
+
+    const durationMin = document.getElementById("duration_min");
+    movie.duration_min = durationMin.value;
+
+    const genre = document.getElementById("genre");
+    movie.genre = genre.value;
+
+    const posterUrl = document.getElementById("poster_url");
+    movie.poster_url = posterUrl.value;
+
+    const response = await putMovie(movie);
     console.log(response);
     alert("Movie edited successfully");
     cancelEditMovie();
@@ -473,7 +491,9 @@ function editScreening(movie, screening) {
 
 
     const pbSaveScreening = document.getElementById("pbSaveScreening")
-    pbSaveScreening.addEventListener("click", updateScreening);
+    pbSaveScreening.addEventListener("click", function() {
+        updateScreening(screening);
+    });
 
     const pbCancelScreening = document.getElementById("pbCancelScreening");
     pbCancelScreening.addEventListener("click", cancelEditScreening);
@@ -515,19 +535,21 @@ async function getAllMovieScreenings(movie){
     }
 }
 
-async function updateScreening() {
+async function updateScreening(screening) {
     const screeningChosen = document.querySelector(".dateTimeOption");
     const screeningId = screeningChosen.value;
-    const screening = {
+    const updatedScreening = {
         screening_date: document.getElementById("screeningDate").value,
         screening_start: document.getElementById("screeningTime").value,
-        screeningId: screeningId,
+        id: screeningId,
+        projectionRoom: screening.projectionRoom,
+        projectionMovie: screening.projectionMovie
     };
 
-    console.log(screening);
+    console.log(updatedScreening);
     console.log(screeningId);
 
-    await putScreening(urlUpdateScreening + "/" + screeningId, screening);
+    await putScreening(urlUpdateScreening, updatedScreening);
     cancelEditScreening();
 }
 
