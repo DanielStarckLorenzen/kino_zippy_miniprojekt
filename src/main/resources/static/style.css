@@ -230,8 +230,6 @@ h1, h2, h3, h4, h5, h6 {
 
     border: var(--pallete-color-red) solid 2px;
     border-radius: 10px;
-
-
 }
 
 .table {
@@ -242,6 +240,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .table tr:hover {
     background-color: #446e7e;
+}
+
+#headerRow:hover {
+    background-color: var(--pallete-color-blue);
 }
 
 

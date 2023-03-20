@@ -222,6 +222,7 @@ function cancelEditMovie() {
     selectedCard.classList.add("hide");
     const seeMovies = document.getElementById("seeMovies");
     seeMovies.classList.remove("fadeBackground");
+    window.location.reload();
 }
 
 function searchMovie() {
@@ -627,7 +628,7 @@ function createReservation(movie, screening) {
         // set the default value of the screeningSelect dropdown
         screeningSelect.value = firstScreening.id;
 
-        // trigger the change event of the screeningSelect dropdown
+        // trigger a change event when the function is activated
         screeningSelect.dispatchEvent(new Event("change"));
 
         const screeningCinema = document.querySelector(".screeningCinema");
@@ -925,5 +926,5 @@ async function updateReservation(reservation) {
     reservation.paid = true;
     reservation.active = true;
     postReservation(reservation, urlUpdateReservation);
-
 }
+
