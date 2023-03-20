@@ -115,6 +115,7 @@ public class EmployeeRESTController {
     public Reservation createReservation(@RequestBody Reservation reservation, @PathVariable int screening_id) {
         System.out.println("L. 115 - Reservation: " + reservation.getReservationContact());
         System.out.println("L. 116 - Screening: " + screening_id);
+
         reservation.setScreening(screeningRepository.findById(screening_id).get());
 
         return reservationRepository.save(reservation);
