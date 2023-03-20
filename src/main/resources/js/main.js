@@ -693,18 +693,17 @@ function cancelCreateReservation() {
     window.location.reload();
 }
 
-function saveReservation(screening, selectedSeats) {
+async function saveReservation(screening, selectedSeats) {
 
     const reservationContact = document.getElementById("reservationContact").value;
-
     console.log(selectedSeats);
     const selectedSeatsIds = [];
     for (const seat of selectedSeats) {
         selectedSeatsIds.push(seat.id);
+
     }
 
     console.log(selectedSeatsIds);
-
     const reservation = {
         reservationContact: reservationContact,
         reserved: true,
@@ -712,14 +711,18 @@ function saveReservation(screening, selectedSeats) {
         active: false,
         screening: screening
     }
+
     console.log(reservation);
 
-    postReservation(reservation, urlCreateReservation + "/" + screening.id);
+    postReservation(reservation, urlCreateReservation + "/" + screening.id)
+        .then(() => createSeatReserved(reservation, selectedSeats))
+        .catch(error => console.error(error));
 
-    createSeatReserved(reservation, selectedSeatsIds);
+
 }
 
 async function postReservation(reservation, url) {
+    console.log(url);
     const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -727,18 +730,19 @@ async function postReservation(reservation, url) {
         },
         body: JSON.stringify(reservation),
     });
-    await fetchReservation(url, response);
+    return response.json()
 }
 
-async function postSeatReservation(reservation, url) {
+async function postSeatReservation(seatReserved, url) {
+    console.log(url);
     const response = await fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(reservation),
+        body: JSON.stringify(seatReserved),
     });
-    await fetchReservation(url, response);
+    return response.json()
 }
 
 function fetchReservation(url, postReservationRequest) {
@@ -764,13 +768,17 @@ function fetchAllSeats(url) {
     return fetch(url).then((response) => response.json());
 }
 
-function createSeatReserved(reservation, selectedSeatsIds) {
+function createSeatReserved(reservation, selectedSeats) {
 
-    for (let i = 0; i < selectedSeatsIds.length; i++) {
+    for (let i = 0; i < selectedSeats.length; i++) {
         let seatReserved = {
             reservation: reservation,
-            seatId: selectedSeatsIds[i]
+            seat: selectedSeats[i]
         }
+
+        console.log(reservation);
+
+        console.log(seatReserved);
 
         postSeatReservation(seatReserved, urlCreateSeatReservation)
     }

@@ -111,7 +111,7 @@ public class EmployeeRESTController {
         return auditorium;
     }
 
-    @PostMapping("/createReservation/{screening_id}/{seat_ids}")
+    @PostMapping("/createReservation/{screening_id}")
     public Reservation createReservation(@RequestBody Reservation reservation, @PathVariable int screening_id) {
         System.out.println("L. 115 - Reservation: " + reservation.getReservationContact());
         System.out.println("L. 116 - Screening: " + screening_id);
@@ -122,6 +122,8 @@ public class EmployeeRESTController {
 
     @PostMapping("/createSeatReservation")
     public SeatReserved createSeatReservation(@RequestBody SeatReserved seatReserved) {
+        Reservation reservation = reservationRepository.findFirstByOrderByIdDesc();
+        seatReserved.setReservation(reservation);
         return seatReservedRepository.save(seatReserved);
     }
 
