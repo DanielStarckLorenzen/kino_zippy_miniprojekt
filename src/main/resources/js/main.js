@@ -9,6 +9,7 @@ const urlUpdateScreening = "http://localhost:8080/updateScreening";
 const urlGetSeatsFromAuditorium = "http://localhost:8080/getSeatsFromAuditorium";
 const urlGetAuditoriumFromScreening = "http://localhost:8080/getAuditoriumFromScreening";
 const urlCreateReservation = "http://localhost:8080/createReservation";
+const urlCreateSeatReservation = "http://localhost:8080/createSeatReservation"
 
 const pbAddMovie = document.getElementById("pbAddMovie");
 pbAddMovie.addEventListener("click", newMovie);
@@ -719,6 +720,17 @@ function saveReservation(screening, selectedSeats) {
 }
 
 async function postReservation(reservation, url) {
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reservation),
+    });
+    await fetchReservation(url, response);
+}
+
+async function postSeatReservation(reservation, url) {
     const response = await fetch(url, {
         method: "POST",
         headers: {
