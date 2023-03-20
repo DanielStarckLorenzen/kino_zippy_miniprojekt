@@ -1,9 +1,10 @@
 package com.example.kino_zippy_miniprojekt.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Seat {
@@ -14,10 +15,9 @@ public class Seat {
     private int seat_number;
 
 
-    @ManyToOne
-    @JoinColumn(name = "Reservation_Id", referencedColumnName = "id")
-    private Reservation reservation;
-
+    @OneToMany(mappedBy = "seat")
+    @JsonBackReference(value = "seats-reserved")
+    private Set<SeatReserved> seatReserved = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "Seat_Room", referencedColumnName = "id")
@@ -47,12 +47,12 @@ public class Seat {
         this.seat_number = number;
     }
 
-    public Reservation getReservation() {
-        return reservation;
+    public Set<SeatReserved> getSeatReserved() {
+        return seatReserved;
     }
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
+    public void setSeatReserved(Set<SeatReserved> seatReserved) {
+        this.seatReserved = seatReserved;
     }
 
     public Auditorium getAuditorium() {

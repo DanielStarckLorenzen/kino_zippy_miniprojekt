@@ -32,6 +32,8 @@ public class EmployeeRESTController {
     @Autowired
     private ReservationRepository reservationRepository;
 
+    @Autowired
+    private SeatReservedRepository seatReservedRepository;
     @PostMapping("/createMovie")
     public Movie createMovie(@RequestBody Movie movie) {
         return movieRepository.save(movie);
@@ -110,26 +112,17 @@ public class EmployeeRESTController {
     }
 
     @PostMapping("/createReservation/{screening_id}/{seat_ids}")
-    public Reservation createReservation(@RequestBody Reservation reservation, @PathVariable int screening_id, @PathVariable int[] seat_ids) {
+    public Reservation createReservation(@RequestBody Reservation reservation, @PathVariable int screening_id) {
         System.out.println("L. 115 - Reservation: " + reservation.getReservationContact());
         System.out.println("L. 116 - Screening: " + screening_id);
         reservation.setScreening(screeningRepository.findById(screening_id).get());
 
-        //Set<Seat> seats = new HashSet<>();
-        for (int seat_id : seat_ids) {
-            System.out.println("L. 119 - Seat: " + seat_id);
-            Seat seat = seatRepository.findById(seat_id).orElse(null);
-            if (seat != null) {
-                System.out.println("Seat id: " + seat.getId());
-                seat.setReservation(reservation);
-
-                seatRepository.save(seat);
-            }
-            //seats.add(seatRepository.findById(seat_id).get());
-        }
-        //reservation.setSeats(seats);
-
         return reservationRepository.save(reservation);
+    }
+
+    @PostMapping("/createSeatReservation")
+    public SeatReserved createSeatReservation(@RequestBody SeatReserved seatReserved) {
+        return seatReservedRepository.save(seatReserved);
     }
 
 }

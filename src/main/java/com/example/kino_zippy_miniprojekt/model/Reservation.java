@@ -21,8 +21,8 @@ public class Reservation {
     private Screening screening;
 
     @OneToMany(mappedBy = "reservation")
-    @JsonBackReference(value = "reservation-seat")
-    private Set<Seat> seats = new HashSet<>();
+    @JsonBackReference(value = "reservation-seatReserved")
+    private Set<SeatReserved> seatReserved = new HashSet<>();
 
     public int getId() {
         return id;
@@ -72,11 +72,11 @@ public class Reservation {
         this.screening = screening;
     }
 
-    public Set<Seat> getSeats() {
-        return seats;
+    public Set<SeatReserved> getSeatReserved() {
+        return seatReserved;
     }
 
-    public void setSeats(Set<Seat> seats) {
-        this.seats = seats;
+    public void setSeatReserved(Set<SeatReserved> seatReserved) {
+        this.seatReserved = seatReserved;
     }
 }

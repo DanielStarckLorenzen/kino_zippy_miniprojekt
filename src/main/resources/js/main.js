@@ -692,7 +692,7 @@ function cancelCreateReservation() {
     window.location.reload();
 }
 
-function saveReservation(screening, selectedSeats, amountOfReservations) {
+function saveReservation(screening, selectedSeats) {
 
     const reservationContact = document.getElementById("reservationContact").value;
 
@@ -709,13 +709,13 @@ function saveReservation(screening, selectedSeats, amountOfReservations) {
         reserved: true,
         paid: false,
         active: false,
-        seats: selectedSeats,
         screening: screening
     }
     console.log(reservation);
 
-    postReservation(reservation, urlCreateReservation + "/" + screening.id + "/" + selectedSeatsIds);
+    postReservation(reservation, urlCreateReservation + "/" + screening.id);
 
+    createSeatReserved(reservation, selectedSeatsIds);
 }
 
 async function postReservation(reservation, url) {
@@ -750,4 +750,17 @@ async function getSeatsFromAuditorium(auditoriumName) {
 function fetchAllSeats(url) {
     console.log(url);
     return fetch(url).then((response) => response.json());
+}
+
+function createSeatReserved(reservation, selectedSeatsIds) {
+
+    for (let i = 0; i < selectedSeatsIds.length; i++) {
+        let seatReserved = {
+            reservation: reservation,
+            seatId: selectedSeatsIds[i]
+        }
+
+        postSeatReservation(seatReserved, urlCreateSeatReservation)
+    }
+
 }
