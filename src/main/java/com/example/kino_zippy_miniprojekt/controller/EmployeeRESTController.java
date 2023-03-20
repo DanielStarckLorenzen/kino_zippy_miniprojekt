@@ -147,6 +147,11 @@ public class EmployeeRESTController {
         return reservationRepository.save(reservation);
     }
 
+    @GetMapping("/getReservedSeatsFromScreening/{id}")
+    public List<SeatReserved> getReservedSeatsFromScreening(@PathVariable int id) {
+        return seatReservedRepository.findAllByReservationScreening_Id(id);
+    }
+
 }
 
 

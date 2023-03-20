@@ -246,6 +246,11 @@ h1, h2, h3, h4, h5, h6 {
     background-color: var(--pallete-color-blue);
 }
 
+.reserved {
+    filter: invert(6%) sepia(59%) saturate(6380%) hue-rotate(350deg) brightness(81%) contrast(96%);
+    pointer-events: none;
+}
+
 
 
 :root {

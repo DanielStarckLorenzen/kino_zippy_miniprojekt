@@ -14,6 +14,7 @@ const urlGetAllReservations = "http://localhost:8080/getAllReservations";
 const urlDeleteReservation = "http://localhost:8080/deleteReservation";
 const urlGetSeatsReservedFromReservation = "http://localhost:8080/getSeatsReservedFromReservation";
 const urlUpdateReservation = "http://localhost:8080/updateReservation";
+const urlGetReservedSeatsFromScreening = "http://localhost:8080/getReservedSeatsFromScreening";
 
 const pbAddMovie = document.getElementById("pbAddMovie");
 pbAddMovie.addEventListener("click", newMovie);
@@ -649,6 +650,15 @@ function createReservation(movie, screening) {
             });
 
             const seatingPlan = document.getElementById("seatingPlan");
+            const reservedSeats = [];
+            getReservedSeatsFromScreening(selectedScreening).then((reservationList) => {
+                console.log(reservationList);
+                for (const reservation of reservationList) {
+                    console.log(reservation.seat.id);
+                    reservedSeats.push(reservation.seat.id);
+                }
+
+            });
 
             getAuditoriumFromScreening(selectedScreening.id).then((auditorium) => {
                 console.log(auditorium.name);
@@ -664,8 +674,15 @@ function createReservation(movie, screening) {
                         seatingPlan.style.justifyContent = "center";
                         const seatNumbers = seatList.map(seat => seat.seat_number);
                         const seatsPerRow = Math.max(...seatNumbers);
-                        console.log(seatsPerRow);
                         seatingPlan.style.gridTemplateColumns = "repeat(" + seatsPerRow + ", 1fr)";
+
+
+                        if (reservedSeats.includes(seat.id)) {
+                            console.log("Seat is reserved");
+                            seatIcon.classList.add("reserved");
+                        }
+
+
                         seatingPlan.appendChild(seatIcon);
 
                         const seatImage = document.createElement("img");
@@ -792,7 +809,6 @@ async function getSeatsFromAuditorium(auditoriumName) {
 }
 
 function fetchAllSeats(url) {
-    console.log(url);
     return fetch(url).then((response) => response.json());
 }
 
@@ -817,64 +833,66 @@ function createSeatReserved(reservation, selectedSeats) {
 
 
 function createTable(reservation){
+    if (reservation.active === false) {
 
-    const tblReservation = document.getElementById("reservationTable")
+        const tblReservation = document.getElementById("reservationTable")
 
-    let cellCount = 0
-    let rowCount = tblReservation.rows.length
-    let row = tblReservation.insertRow(rowCount)
-    row.id = reservation.id;
+        let cellCount = 0
+        let rowCount = tblReservation.rows.length
+        let row = tblReservation.insertRow(rowCount)
+        row.id = reservation.id;
 
-    let cell = row.insertCell(cellCount++)
-    cell.innerHTML = reservation.reservationContact;
-
-    cell = row.insertCell(cellCount++)
-    cell.innerHTML = reservation.screening.projectionMovie.title;
-
-    cell = row.insertCell(cellCount++)
-    cell.innerHTML = reservation.screening.screening_date
-
-
-    cell = row.insertCell(cellCount++)
-    cell.innerHTML = reservation.screening.screening_start
-
-    cell = row.insertCell(cellCount++)
-    cell.innerHTML = reservation.screening.projectionRoom.name;
-
-
-    cell = row.insertCell(cellCount++)
-    getSeatsReservedFromReservation(reservation).then((seatsReserved) => {
-        let breakLine = document.createElement("br");
-        for (let i = 0; i < seatsReserved.length; i++) {
-            cell.innerHTML += "Seat: " + seatsReserved[i].seat.seat_number + ", Row: " + seatsReserved[i].seat.seat_row + breakLine.outerHTML;
-        }
+        let cell = row.insertCell(cellCount++)
+        cell.innerHTML = reservation.reservationContact;
 
         cell = row.insertCell(cellCount++)
-        let pbPay = document.createElement("button");
-        pbPay.type = "button";
-        pbPay.textContent = "PAY!";
-        pbPay.classList.add("btn");
-        pbPay.classList.add("btn-success");
-        pbPay.style.width = "100px";
-        pbPay.style.height = "auto";
-        pbPay.addEventListener("click", function () {
-            payForReservation(reservation, seatsReserved);
-        })
-        cell.appendChild(pbPay);
+        cell.innerHTML = reservation.screening.projectionMovie.title;
 
         cell = row.insertCell(cellCount++)
-        let pbCancel = document.createElement("button");
-        pbCancel.type = "button";
-        pbCancel.textContent = "Cancel :(";
-        pbCancel.classList.add("btn");
-        pbCancel.classList.add("btn-danger");
-        pbCancel.style.width = "100px";
-        pbCancel.style.height = "auto";
-        pbCancel.addEventListener("click", function () {
-            deleteReservation(reservation);
+        cell.innerHTML = reservation.screening.screening_date
+
+
+        cell = row.insertCell(cellCount++)
+        cell.innerHTML = reservation.screening.screening_start
+
+        cell = row.insertCell(cellCount++)
+        cell.innerHTML = reservation.screening.projectionRoom.name;
+
+
+        cell = row.insertCell(cellCount++)
+        getSeatsReservedFromReservation(reservation).then((seatsReserved) => {
+            let breakLine = document.createElement("br");
+            for (let i = 0; i < seatsReserved.length; i++) {
+                cell.innerHTML += "Seat: " + seatsReserved[i].seat.seat_number + ", Row: " + seatsReserved[i].seat.seat_row + breakLine.outerHTML;
+            }
+
+            cell = row.insertCell(cellCount++)
+            let pbPay = document.createElement("button");
+            pbPay.type = "button";
+            pbPay.textContent = "PAY!";
+            pbPay.classList.add("btn");
+            pbPay.classList.add("btn-success");
+            pbPay.style.width = "100px";
+            pbPay.style.height = "auto";
+            pbPay.addEventListener("click", function () {
+                payForReservation(reservation, seatsReserved);
+            })
+            cell.appendChild(pbPay);
+
+            cell = row.insertCell(cellCount++)
+            let pbCancel = document.createElement("button");
+            pbCancel.type = "button";
+            pbCancel.textContent = "Cancel :(";
+            pbCancel.classList.add("btn");
+            pbCancel.classList.add("btn-danger");
+            pbCancel.style.width = "100px";
+            pbCancel.style.height = "auto";
+            pbCancel.addEventListener("click", function () {
+                deleteReservation(reservation);
+            });
+            cell.appendChild(pbCancel);
         });
-        cell.appendChild(pbCancel);
-    });
+    }
 }
 
 async function getAllReservations() {
@@ -926,5 +944,10 @@ async function updateReservation(reservation) {
     reservation.paid = true;
     reservation.active = true;
     postReservation(reservation, urlUpdateReservation);
+}
+
+async function getReservedSeatsFromScreening(screening) {
+    let seatReservedList = await fetchAllSeats(urlGetReservedSeatsFromScreening + "/" + screening.id);
+    return seatReservedList;
 }
 
