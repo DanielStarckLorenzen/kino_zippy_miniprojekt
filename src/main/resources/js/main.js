@@ -12,6 +12,8 @@ const urlCreateReservation = "http://localhost:8080/createReservation";
 const urlCreateSeatReservation = "http://localhost:8080/createSeatReservation"
 const urlGetAllReservations = "http://localhost:8080/getAllReservations";
 const urlDeleteReservation = "http://localhost:8080/deleteReservation";
+const urlGetSeatsReservedFromReservation = "http://localhost:8080/getSeatsReservedFromReservation";
+const urlUpdateReservation = "http://localhost:8080/updateReservation";
 
 const pbAddMovie = document.getElementById("pbAddMovie");
 pbAddMovie.addEventListener("click", newMovie);
@@ -721,6 +723,7 @@ async function saveReservation(screening, selectedSeats) {
         .catch(error => console.error(error));
 
 
+
 }
 
 async function postReservation(reservation, url) {
@@ -785,10 +788,13 @@ function createSeatReserved(reservation, selectedSeats) {
         postSeatReservation(seatReserved, urlCreateSeatReservation)
     }
 
+    closeReservation();
+
 }
 
 
 function createTable(reservation){
+
     const tblReservation = document.getElementById("reservationTable")
 
     let cellCount = 0
@@ -814,27 +820,38 @@ function createTable(reservation){
 
 
     cell = row.insertCell(cellCount++)
-    cell.innerHTML = "TBA";
+    getSeatsReservedFromReservation(reservation).then((seatsReserved) => {
+        let breakLine = document.createElement("br");
+        for (let i = 0; i < seatsReserved.length; i++) {
+            cell.innerHTML += "Seat: " + seatsReserved[i].seat.seat_number + ", Row: " + seatsReserved[i].seat.seat_row + breakLine.outerHTML;
+        }
 
-    cell = row.insertCell(cellCount++)
-    let pbPay = document.createElement("button");
-    pbPay.type = "button";
-    pbPay.textContent = "PAY!";
-    pbPay.addEventListener("click", function () {
-        payForReservation(reservation);
-    })
-    cell.appendChild(pbPay);
+        cell = row.insertCell(cellCount++)
+        let pbPay = document.createElement("button");
+        pbPay.type = "button";
+        pbPay.textContent = "PAY!";
+        pbPay.classList.add("btn");
+        pbPay.classList.add("btn-success");
+        pbPay.style.width = "100px";
+        pbPay.style.height = "auto";
+        pbPay.addEventListener("click", function () {
+            payForReservation(reservation, seatsReserved);
+        })
+        cell.appendChild(pbPay);
 
-    cell = row.insertCell(cellCount++)
-    let pbCancel = document.createElement("button");
-    pbCancel.type = "button";
-    pbCancel.textContent = "Cancel :(";
-    pbCancel.addEventListener("click", function() {
-        deleteReservation(reservation);
+        cell = row.insertCell(cellCount++)
+        let pbCancel = document.createElement("button");
+        pbCancel.type = "button";
+        pbCancel.textContent = "Cancel :(";
+        pbCancel.classList.add("btn");
+        pbCancel.classList.add("btn-danger");
+        pbCancel.style.width = "100px";
+        pbCancel.style.height = "auto";
+        pbCancel.addEventListener("click", function () {
+            deleteReservation(reservation);
+        });
+        cell.appendChild(pbCancel);
     });
-    cell.appendChild(pbCancel);
-
-
 }
 
 async function getAllReservations() {
@@ -850,10 +867,20 @@ function fetchAllReservations(url) {
 
 async function deleteReservation(reservation) {
     postReservation(reservation, urlDeleteReservation);
-    closeReservation();
+
+    window.location.reload();
 }
 
-function payForReservation(reservation) {
+function payForReservation(reservation, seatsReserved) {
+    console.log("Pay!");
+    let amountOfTickets = seatsReserved.length;
+    console.log(amountOfTickets);
+    const price = 150;
+    console.log(price);
+    let totalPrice = amountOfTickets * price;
+    console.log(totalPrice);
+
+    updateReservation(reservation);
 
 }
 
@@ -864,4 +891,17 @@ function closeReservation() {
     const seeMovies = document.getElementById("seeScreenings");
     seeMovies.classList.remove("fadeBackground");
     window.location.reload();
+}
+
+async function getSeatsReservedFromReservation(reservation) {
+    let seatReservedList = await fetchAllSeats(urlGetSeatsReservedFromReservation + "/" + reservation.id);
+    console.log(seatReservedList);
+    return seatReservedList;
+}
+
+async function updateReservation(reservation) {
+    reservation.paid = true;
+    reservation.active = true;
+    postReservation(reservation, urlUpdateReservation);
+
 }

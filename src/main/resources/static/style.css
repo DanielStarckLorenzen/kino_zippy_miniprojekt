@@ -224,6 +224,26 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 5px;
 }
 
+#reservationTableDiv {
+    margin: 0 auto;
+    width: 92%;
+
+    border: var(--pallete-color-red) solid 2px;
+    border-radius: 10px;
+
+
+}
+
+.table {
+    text-align: center;
+    border: var(--pallete-color-red);
+    color: white;
+}
+
+.table tr:hover {
+    background-color: #446e7e;
+}
+
 
 
 :root {

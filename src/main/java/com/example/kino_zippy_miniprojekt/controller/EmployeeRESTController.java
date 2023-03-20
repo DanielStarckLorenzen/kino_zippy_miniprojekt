@@ -140,6 +140,16 @@ public class EmployeeRESTController {
         reservationRepository.delete(reservation);
     }
 
+    @GetMapping("/getSeatsReservedFromReservation/{id}")
+    public List<SeatReserved> getSeatsReservedFromReservation(@PathVariable int id) {
+        return seatReservedRepository.findAllByReservationId(id);
+    }
+
+    @PostMapping("/updateReservation")
+    public Reservation updateReservation(@RequestBody Reservation reservation) {
+        return reservationRepository.save(reservation);
+    }
+
 }
 
 
