@@ -240,6 +240,30 @@ function searchMovie() {
     }
 }
 
+function searchContact() {
+    const input = document.querySelector(".contactSearch");
+    const filter = input.value.toUpperCase();
+    const table = document.getElementById("reservationTable");
+    const columnIndex = 0; // index of the column to search in
+    for (let i = 0; i < table.rows.length; i++) {
+        let cell = table.rows[i].cells[columnIndex];
+        if (cell.innerText.toUpperCase().indexOf(filter) > -1) {
+            table.rows[i].style.display = "";
+        } else {
+            table.rows[i].style.display = "none";
+        }
+    }
+
+    // Show the header row if there are any visible rows
+    const header = document.getElementById("headerRow");
+    const visibleRows = document.querySelectorAll(".contactRow:not([style*='display: none'])");
+    if (visibleRows.length > 0) {
+        header.style.display = "";
+    } else {
+        header.style.display = "none";
+    }
+}
+
 async function editMovie(movie) {
     const title = document.getElementById("title");
     movie.title = title.value;
@@ -416,6 +440,10 @@ function createScreeningCard(screening, addedScreenings) {
     pbSearchMovie.addEventListener("click", searchMovie);
     const inputSearchMovie = document.querySelector(".movieSearch");
     inputSearchMovie.addEventListener("input", searchMovie);
+
+
+    //const contactSearch = document.getElementById("reservationContactSearch");
+    //contactSearch.addEventListener("input", searchContact);
 
     addedScreenings.push(screening.id);
 }
@@ -608,7 +636,7 @@ function createReservation(movie, screening) {
 
     const screeningSelect = document.getElementById("screeningSelect");
 
-    const amountOfReservations = document.getElementById("createReservationAmount").value;
+    //const amountOfReservations = document.getElementById("createReservationAmount").value;
 
     let selectedSeats = [];
 
@@ -628,9 +656,6 @@ function createReservation(movie, screening) {
 
         // set the default value of the screeningSelect dropdown
         screeningSelect.value = firstScreening.id;
-
-        // trigger a change event when the function is activated
-        screeningSelect.dispatchEvent(new Event("change"));
 
         const screeningCinema = document.querySelector(".screeningCinema");
         screeningCinema.innerText = firstScreening.projectionRoom.name;
@@ -720,7 +745,7 @@ function createReservation(movie, screening) {
 
     const pbSaveScreening = document.getElementById("pbSaveReservation")
     pbSaveScreening.addEventListener("click", function () {
-        saveReservation(screening, selectedSeats, amountOfReservations);
+        saveReservation(screening, selectedSeats);
     });
 
     const pbCancelScreening = document.getElementById("pbCancelReservation");
@@ -833,6 +858,8 @@ function createSeatReserved(reservation, selectedSeats) {
 
 
 function createTable(reservation){
+
+
     if (reservation.active === false) {
 
         const tblReservation = document.getElementById("reservationTable")
@@ -840,9 +867,11 @@ function createTable(reservation){
         let cellCount = 0
         let rowCount = tblReservation.rows.length
         let row = tblReservation.insertRow(rowCount)
+        row.classList.add("contactRow");
         row.id = reservation.id;
 
         let cell = row.insertCell(cellCount++)
+        cell.classList.add("reservationContact");
         cell.innerHTML = reservation.reservationContact;
 
         cell = row.insertCell(cellCount++)
@@ -892,7 +921,10 @@ function createTable(reservation){
             });
             cell.appendChild(pbCancel);
         });
+
     }
+    const contactSearch = document.getElementById("reservationContactSearch");
+    contactSearch.addEventListener("input", searchContact);
 }
 
 async function getAllReservations() {
@@ -900,6 +932,8 @@ async function getAllReservations() {
     let reservationList = await fetchAllReservations(urlGetAllReservations);
     console.log(reservationList);
     reservationList.forEach(createTable);
+
+
 }
 
 function fetchAllReservations(url) {
