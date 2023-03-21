@@ -116,11 +116,14 @@ function createCard(movie) {
     movieCard.addEventListener("click", function () {
         if (window.location.href.indexOf("createScreening") > -1) {
             seeSelectedCardForScreening(movie);
-        } else {
+        } else if (window.location.href.indexOf("seeMovie") > -1) {
             seeSelectedCard(movie);
         }
     });
     movieCard.style.width = "285px";
+    if (window.location.href.indexOf("index") > -1) {
+        movieCard.style.pointerEvents = "none";
+    }
     movieContainer.appendChild(movieCard);
 
     const moviePoster = document.createElement("img");
