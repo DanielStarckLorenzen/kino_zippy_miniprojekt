@@ -961,6 +961,7 @@ function payForReservation(reservation, seatsReserved) {
     console.log(totalPrice);
 
     updateReservation(reservation);
+    window.location.reload();
 
 }
 
@@ -1013,7 +1014,15 @@ async function analyticsCalculation() {
 
     amountOfReservations.innerText = allReservations.length;
     amountOfTicketSold.innerText = paidTickets.length;
-    amountOfActiveReservations.innerText = activeTickets.length;
+    let activePercentage = paidTickets.length / allReservations.length * 100;
+    amountOfActiveReservations.innerText = activePercentage + "%";
+    if (activePercentage > 80) {
+        amountOfActiveReservations.style.color = "green";
+    } else if (activePercentage > 40) {
+        amountOfActiveReservations.style.color = "yellow";
+    } else {
+        amountOfActiveReservations.style.color = "red";
+    }
 
 
     let seatsReservedPaid = await fetch(urlGetAllPaidSeats + "/" + true).then((response) => response.json());
