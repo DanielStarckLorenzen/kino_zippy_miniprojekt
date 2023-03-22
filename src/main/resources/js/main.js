@@ -15,6 +15,7 @@ const urlDeleteReservation = "http://localhost:8080/deleteReservation";
 const urlGetSeatsReservedFromReservation = "http://localhost:8080/getSeatsReservedFromReservation";
 const urlUpdateReservation = "http://localhost:8080/updateReservation";
 const urlGetReservedSeatsFromScreening = "http://localhost:8080/getReservedSeatsFromScreening";
+const urlGetAllPaidSeats = "http://localhost:8080/getAllPaidSeats"
 
 const pbAddMovie = document.getElementById("pbAddMovie");
 pbAddMovie.addEventListener("click", newMovie);
@@ -986,5 +987,43 @@ async function updateReservation(reservation) {
 async function getReservedSeatsFromScreening(screening) {
     let seatReservedList = await fetchAllSeats(urlGetReservedSeatsFromScreening + "/" + screening.id);
     return seatReservedList;
+}
+
+async function analyticsCalculation() {
+    const amountOfReservations = document.getElementById("amountOfReservations");
+    const amountOfTicketSold = document.getElementById("amountOfTicketSold");
+    const revenueGenerated = document.getElementById("revenueGenerated");
+    const amountOfActiveReservations = document.getElementById("amountOfActiveReservations");
+
+    let allReservations = await fetch(urlGetAllReservations).then((response) => response.json())
+
+
+    let paidTickets = [];
+    let activeTickets = []
+
+    for (let reservation of allReservations) {
+        if (reservation.paid === true) {
+            paidTickets.push(reservation);
+        }
+        if (reservation.active === true) {
+            activeTickets.push(reservation);
+        }
+    }
+
+    amountOfReservations.innerText = allReservations.length;
+    amountOfTicketSold.innerText = paidTickets.length;
+    amountOfActiveReservations.innerText = activeTickets.length;
+
+
+    let seatsReservedPaid = await fetch(urlGetAllPaidSeats + "/" + true).then((response) => response.json());
+
+    const price = 150;
+
+    let totalRevenue = seatsReservedPaid.length * price;
+
+    revenueGenerated.innerText = totalRevenue;
+
+    console.log(totalRevenue);
+
 }
 

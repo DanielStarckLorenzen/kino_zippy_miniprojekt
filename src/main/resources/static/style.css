@@ -251,6 +251,24 @@ h1, h2, h3, h4, h5, h6 {
     pointer-events: none;
 }
 
+.analyticCards {
+    width: 400px;
+    height: 200px;
+    margin-right: 50px;
+    margin-left: 50px;
+    margin-top: 40px;
+    text-align: center;
+
+}
+
+.card-subtitle {
+    color: #c5c5c5;
+}
+
+.analyticContainer {
+
+}
+
 
 
 :root {

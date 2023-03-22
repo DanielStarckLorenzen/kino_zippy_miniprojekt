@@ -152,6 +152,11 @@ public class EmployeeRESTController {
         return seatReservedRepository.findAllByReservationScreening_Id(id);
     }
 
+    @GetMapping("getAllPaidSeats/{paid}")
+    public List<SeatReserved> getReservedSeatsPaid(@PathVariable boolean paid){
+        return seatReservedRepository.findAllByReservationPaid(paid);
+    }
+
 }
 
 
