@@ -13,4 +13,5 @@ public interface SeatReservedRepository extends JpaRepository<SeatReserved, Inte
 
     List<SeatReserved> findAllByReservationScreening_Id(int id);
 
+    List<SeatReserved> findAllByReservationPaid(boolean paid);
 }
