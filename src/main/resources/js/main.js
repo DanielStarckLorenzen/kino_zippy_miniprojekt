@@ -294,6 +294,7 @@ async function editMovie(movie) {
     console.log(response);
     alert("Movie edited successfully");
     cancelEditMovie();
+    window.location.reload();
 }
 
 function deleteMovie(movie){
@@ -1021,7 +1022,7 @@ async function analyticsCalculation() {
 
     let totalRevenue = seatsReservedPaid.length * price;
 
-    revenueGenerated.innerText = totalRevenue;
+    revenueGenerated.innerText = totalRevenue + " kr";
 
     console.log(totalRevenue);
 
