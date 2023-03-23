@@ -668,7 +668,7 @@ function createReservation(movie, screening) {
         const seatingPlan = document.getElementById("seatingPlan");
         const reservedSeats = [];
 
-        printSeats(firstScreening, seatingPlan, reservedSeats);
+        selectedSeats = printSeats(firstScreening, seatingPlan, reservedSeats);
 
         screeningSelect.addEventListener("change", () => {
             // remove the existing seats
@@ -692,7 +692,7 @@ function createReservation(movie, screening) {
                     reservedSeats.push(reservation.seat.id);
                 }
             });
-            printSeats(selectedScreening, seatingPlan, reservedSeats);
+            selectedSeats = printSeats(selectedScreening, seatingPlan, reservedSeats);
         });
     });
 
@@ -706,6 +706,7 @@ function createReservation(movie, screening) {
 }
 
 function printSeats(selectedScreening, seatingPlan, reservedSeats) {
+    let selectedSeats = [];
     getAuditoriumFromScreening(selectedScreening.id).then((auditorium) => {
         console.log(auditorium.name);
         getSeatsFromAuditorium(auditorium.name).then((seatList) => {
@@ -761,6 +762,7 @@ function printSeats(selectedScreening, seatingPlan, reservedSeats) {
             }
         });
     });
+    return selectedSeats;
 }
 
 function cancelCreateReservation() {
