@@ -1045,5 +1045,109 @@ async function analyticsCalculation() {
 
     console.log(totalRevenue);
 
+    const pbShowActiveReservations = document.getElementById("pbShowActiveReservations");
+    pbShowActiveReservations.addEventListener("click", function () {
+        toggleReservationTable(activeTickets);
+    });
+}
+
+function toggleReservationTable(activeTickets) {
+    const tblDiv = document.getElementById("reservationTableDiv");
+    const tblReservation = document.getElementById("reservationTable");
+    const pbShowActiveReservations = document.getElementById("pbShowActiveReservations");
+
+    if (tblDiv.style.display === "none") {
+        console.log("Show active reservations");
+        tblDiv.style.display = "table";
+
+        pbShowActiveReservations.innerText = "△";
+
+        const header = tblReservation.createTHead();
+        let row = header.insertRow(0);
+        row.id = "headerRow";
+        let cell = row.insertCell(0);
+        cell.innerHTML = "Contact";
+        cell = row.insertCell(1);
+        cell.innerHTML = "Movie";
+        cell = row.insertCell(2);
+        cell.innerHTML = "Date";
+        cell = row.insertCell(3);
+        cell.innerHTML = "Time";
+        cell = row.insertCell(4);
+        cell.innerHTML = "Cinema";
+        cell = row.insertCell(5);
+        cell.innerHTML = "Seats";
+        cell = row.insertCell(6);
+        cell.innerHTML = "Pay";
+        cell = row.insertCell(7);
+        cell.innerHTML = "Cancel";
+
+        for (let reservation of activeTickets) {
+            let cellCount = 0
+            let rowCount = tblReservation.rows.length
+            let row = tblReservation.insertRow(rowCount)
+            row.classList.add("contactRow");
+            row.id = reservation.id;
+
+            let cell = row.insertCell(cellCount++)
+            cell.classList.add("reservationContact");
+            cell.innerHTML = reservation.reservationContact;
+
+            cell = row.insertCell(cellCount++)
+            cell.innerHTML = reservation.screening.projectionMovie.title;
+
+            cell = row.insertCell(cellCount++)
+            cell.innerHTML = reservation.screening.screening_date
+
+
+            cell = row.insertCell(cellCount++)
+            cell.innerHTML = reservation.screening.screening_start
+
+            cell = row.insertCell(cellCount++)
+            cell.innerHTML = reservation.screening.projectionRoom.name;
+
+
+            cell = row.insertCell(cellCount++)
+            getSeatsReservedFromReservation(reservation).then((seatsReserved) => {
+                let breakLine = document.createElement("br");
+                for (let i = 0; i < seatsReserved.length; i++) {
+                    cell.innerHTML += "Seat: " + seatsReserved[i].seat.seat_number + ", Row: " + seatsReserved[i].seat.seat_row + breakLine.outerHTML;
+                }
+
+                cell = row.insertCell(cellCount++)
+                let pbPay = document.createElement("button");
+                pbPay.type = "button";
+                pbPay.textContent = "PAY!";
+                pbPay.classList.add("btn");
+                pbPay.classList.add("btn-success");
+                pbPay.style.width = "100px";
+                pbPay.style.height = "auto";
+                pbPay.addEventListener("click", function () {
+                    payForReservation(reservation, seatsReserved);
+                })
+                cell.appendChild(pbPay);
+
+                cell = row.insertCell(cellCount++)
+                let pbCancel = document.createElement("button");
+                pbCancel.type = "button";
+                pbCancel.textContent = "Cancel :(";
+                pbCancel.classList.add("btn");
+                pbCancel.classList.add("btn-danger");
+                pbCancel.style.width = "100px";
+                pbCancel.style.height = "auto";
+                pbCancel.addEventListener("click", function () {
+                    deleteReservation(reservation);
+                });
+                cell.appendChild(pbCancel);
+            });
+        }
+    } else {
+        tblDiv.style.display = "none";
+        tblReservation.innerHTML = "";
+        pbShowActiveReservations.innerText = "▽";
+        console.log("Hide active reservations");
+    }
+
+
 }
 
