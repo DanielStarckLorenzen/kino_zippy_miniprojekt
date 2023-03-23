@@ -691,67 +691,8 @@ function createReservation(movie, screening) {
                     console.log(reservation.seat.id);
                     reservedSeats.push(reservation.seat.id);
                 }
-
             });
-
             printSeats(selectedScreening, seatingPlan, reservedSeats);
-
-            /*
-            getAuditoriumFromScreening(selectedScreening.id).then((auditorium) => {
-                console.log(auditorium.name);
-                getSeatsFromAuditorium(auditorium.name).then((seatList) => {
-                    console.log(seatList);
-                    for (const seat of seatList) {
-                        const seatIcon = document.createElement("a");
-                        seatIcon.classList.add("seat");
-                        seatIcon.setAttribute("data-colindex", seat.seat_number);
-                        seatIcon.setAttribute("data-rowindex", seat.seat_row);
-                        seatIcon.setAttribute("title", "Row " + seat.seat_row + " - " + "Seat " + seat.seat_number);
-                        seatIcon.setAttribute("auditorium", auditorium.id);
-                        seatingPlan.style.justifyContent = "center";
-                        const seatNumbers = seatList.map(seat => seat.seat_number);
-                        const seatsPerRow = Math.max(...seatNumbers);
-                        seatingPlan.style.gridTemplateColumns = "repeat(" + seatsPerRow + ", 1fr)";
-
-
-                        if (reservedSeats.includes(seat.id)) {
-                            console.log("Seat is reserved");
-                            seatIcon.classList.add("reserved");
-                        }
-
-
-                        seatingPlan.appendChild(seatIcon);
-
-                        const seatImage = document.createElement("img");
-                        seatImage.setAttribute("src", "https://cdn-icons-png.flaticon.com/512/24/24868.png");
-                        seatIcon.appendChild(seatImage);
-
-                        seatIcon.addEventListener("click", () => {
-                            seatAuditoriumId = seatIcon.getAttribute("auditorium");
-                            seatColIndex = seatIcon.getAttribute("data-colindex");
-                            seatRowIndex = seatIcon.getAttribute("data-rowindex");
-                            let choosenSeat = {
-                                id: seat.id,
-                                auditoriumId: seatAuditoriumId,
-                                seat_number: seatColIndex,
-                                seat_row: seatRowIndex
-                            };
-                            if (seatIcon.classList.contains("selected")) {
-                                seatIcon.classList.remove("selected");
-                                // remove the seat from the selectedSeats array
-                                selectedSeats = selectedSeats.filter((selectedSeat) => {
-                                    return selectedSeat.seat_number !== choosenSeat.seat_number;
-                                });
-
-                            } else {
-                                seatIcon.classList.add("selected");
-                                selectedSeats.push(choosenSeat);
-                            }
-                            console.log(selectedSeats);
-                        });
-                    }
-                });
-            });*/
         });
     });
 
