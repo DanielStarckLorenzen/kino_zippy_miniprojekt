@@ -1077,10 +1077,6 @@ function toggleReservationTable(activeTickets) {
         cell.innerHTML = "Cinema";
         cell = row.insertCell(5);
         cell.innerHTML = "Seats";
-        cell = row.insertCell(6);
-        cell.innerHTML = "Pay";
-        cell = row.insertCell(7);
-        cell.innerHTML = "Cancel";
 
         for (let reservation of activeTickets) {
             let cellCount = 0
@@ -1113,32 +1109,6 @@ function toggleReservationTable(activeTickets) {
                 for (let i = 0; i < seatsReserved.length; i++) {
                     cell.innerHTML += "Seat: " + seatsReserved[i].seat.seat_number + ", Row: " + seatsReserved[i].seat.seat_row + breakLine.outerHTML;
                 }
-
-                cell = row.insertCell(cellCount++)
-                let pbPay = document.createElement("button");
-                pbPay.type = "button";
-                pbPay.textContent = "PAY!";
-                pbPay.classList.add("btn");
-                pbPay.classList.add("btn-success");
-                pbPay.style.width = "100px";
-                pbPay.style.height = "auto";
-                pbPay.addEventListener("click", function () {
-                    payForReservation(reservation, seatsReserved);
-                })
-                cell.appendChild(pbPay);
-
-                cell = row.insertCell(cellCount++)
-                let pbCancel = document.createElement("button");
-                pbCancel.type = "button";
-                pbCancel.textContent = "Cancel :(";
-                pbCancel.classList.add("btn");
-                pbCancel.classList.add("btn-danger");
-                pbCancel.style.width = "100px";
-                pbCancel.style.height = "auto";
-                pbCancel.addEventListener("click", function () {
-                    deleteReservation(reservation);
-                });
-                cell.appendChild(pbCancel);
             });
         }
     } else {
